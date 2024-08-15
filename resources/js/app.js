@@ -4,4 +4,5 @@ import router from "./router";
 
 import index from './components/Index.vue';
 
+
 createApp(index).use(router).mount('#app');

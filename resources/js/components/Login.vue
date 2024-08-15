@@ -16,15 +16,14 @@
                     </div>
                     <div class="d-grid gap-2">
                         <button @click.prevent="login" type="submit" name="signin"
-                            class="btn btn-primary">Войти</button>
+                            class="btn btn-primary">Login</button>
                     </div>
-                    <div class="mt-1 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="save_user">
+                    <div class="mt-1 form-checks">
+                        <input type="checkbox" class="form-check-input me-2" id="exampleCheck1" name="save_user">
                         <label class="form-check-label" for="exampleCheck1">Сохранить вход</label>
                     </div>
 
-                    <div class="account-logo mt-3"><router-link to="/registration">Создать аккаунт</router-link></div>
-
+                    <div class="account-logo mt-3 text-center"><router-link to="/registration">Создать аккаунт</router-link></div>
                     <div v-if="error" class="alert alert-danger mt-3" role="alert">{{ this.error }}</div>
                 </form>
             </div>
@@ -47,15 +46,13 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', { email: this.email, password: this.password })
                     .then(res => {
-                        console.log(res);
+                        sessionStorage.setItem('user', JSON.stringify(res.data))
+                        this.$router.push({ name: 'home' })
                     }).catch(err => {
                     this.error = 'Invalid password or login'
                 })
             })
         }
-    },
-    mounted() {
-        console.log('Component mounted.')
     }
 }
 </script>
