@@ -47,7 +47,7 @@ export default {
                 axios.post('/login', { email: this.email, password: this.password })
                     .then(res => {
                         sessionStorage.setItem('user', JSON.stringify(res.data))
-                        this.$router.push({ name: 'home' })
+                        this.$router.push({ name: 'index' })
                     }).catch(err => {
                     this.error = 'Invalid password or login'
                 })

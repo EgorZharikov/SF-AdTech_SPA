@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row account-card align-items-center" :style="{ height: 100 + 'vh' }">
+        <div class="row account-card align-items-center" :style="{height: 100 + 'vh'}">
             <div class="col col-md-4 offset-md-4">
                 <div class="account-logo text-center">
                     <h3 class="h3 mb-3 fw-normal">Please sign up</h3>
@@ -54,7 +54,7 @@ export default {
                 })
                     .then(res => {
                         sessionStorage.setItem('user', JSON.stringify(res.data))
-                        this.$router.push({ name: 'home' })
+                        this.$router.push({ name: 'index' })
 
                     }).catch(err => {
                         this.errors = err.response.data.errors

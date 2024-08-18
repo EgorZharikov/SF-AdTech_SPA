@@ -1,7 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
-
       <router-link class="navbar-brand" to="/">
         <img src="/img/logo.png" alt="logo" width="45">
         SF-AdTech
@@ -18,20 +17,23 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Offers</a>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="offers/create">Create offer</router-link>
+          </li>
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <router-link v-if="!name" class="nav-link" to="/login">Sign in</router-link>
+            <router-link v-if="!user" class="nav-link" to="/login">Sign in</router-link>
           </li>
 
           <li class="nav-item">
-            <router-link v-if="!name" class="nav-link" to="/registration">Sign up</router-link>
+            <router-link v-if="!user" class="nav-link" to="/registration">Sign up</router-link>
           </li>
 
-          <li v-if="name" class="nav-item dropdown">
+          <li v-if="user" class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
-              {{ this.name }}
+            {{ user.name }}
             </a>
 
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -45,28 +47,18 @@
           </li>
 
         </ul>
-
-
       </div>
     </div>
   </nav>
 
-  <router-view :key="$route.fullPath"></router-view>
+    <router-view :key="$route.fullPath"></router-view>
+  
 
 </template>
 
 <script>
 export default {
   name: "Index",
-  data() {
-    return {
-      id: null,
-      email: null,
-      name: null,
-      role_id: null,
-      banned_at: null,
-    }
-  },
   methods: {
     logout() {
       axios.post('/logout')
@@ -74,26 +66,20 @@ export default {
           sessionStorage.clear()
           this.$router.push({ name: 'index' })
         })
-    },
-    getUserData() {
-      let user = JSON.parse(sessionStorage.getItem('user')) ?? false
-
-      this.id = user.id ?? null
-      this.name = user.name ?? null
-      this.email = user.email ?? null
-      this.role_id = user.role_id ?? null
-      this.banned_at = user.banned_at ?? null
-
     }
   },
   mounted() {
-    this.getUserData()
-    console.log(this.name)
+    this.$store.dispatch('getUserData')
     this.$router.push({ name: 'home' })
-    
+
   },
+  computed: {
+    user() {
+        return this.$store.getters.user
+    }
+},
   updated() {
-    this.getUserData()
+    
   }
 }
 </script>

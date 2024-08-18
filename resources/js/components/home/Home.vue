@@ -11,9 +11,10 @@
                     (рекламодателей), которые хотят привлечь к себе на сайт посетителей и покупателей (клиентов), и
                     владельцев сайтов (веб-мастеров), на которые люди приходят, например, чтобы почитать новости или
                     пообщаться на форуме.</p>
-                <div v-if="!name" class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <div v-if="!user" class="d-grid gap-2 d-md-flex justify-content-md-start">
                     <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Registration</button>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -21,6 +22,10 @@
 
 <script>
 export default {
-
+    computed: {
+        user() {
+        return this.$store.getters.user
+    }
+    }
 }
 </script>
