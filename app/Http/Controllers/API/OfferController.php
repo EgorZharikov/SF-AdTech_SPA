@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Offer;
-use App\Http\Resources\OfferResource;
+use App\Models\Topic;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OfferResource;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\API\BaseController as BaseController;
+use Carbon\Carbon;
 
 class OfferController extends BaseController
 {
@@ -30,17 +35,14 @@ class OfferController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
-        $input = $request->all();
+        $data = $request->all();
 
-        $validator = Validator::make($input, [
+        $validator = Validator::make($data, [
             'title' => 'required',
             'url' => 'required',
             'award' => 'required',
             'content' => 'required',
-            'preview_image' => '',
-            'topic_id' => '',
-            'user_id'=> '',
-            'status' => '',
+            'preview_image' => 'required|file|image|max:5120',
             'unique_ip' => ''
         ]);
 
@@ -48,9 +50,36 @@ class OfferController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $offer = Offer::create($input);
+        try {
 
-        return $this->sendResponse(new OfferResource($offer), 'Offer created successfully.');
+            DB::beginTransaction();
+            $image = $data['preview_image'];
+            $name = md5(Carbon::now() . '_' . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
+            $filePath = Storage::disk('public')->putFileAs('/previews', $image, $name);
+            $data['preview_image'] = $filePath;
+
+            $topic = Topic::firstOrCreate([
+                'name' => $data['topic'],
+            ]);
+
+            $offer = Offer::create([
+                'title' => $data['title'],
+                'url' => $data['url'],
+                'award' => $data['award'],
+                'content' => $data['content'],
+                'preview_image' => $data['preview_image'],
+                'topic_id' => $topic->id,
+                'user_id' => Auth::id(),
+                'unique_ip' => ($data['unique_ip'] === 'true' ? 1:0)
+            ]);
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->sendError($exception->getMessage());
+        }
+
+        return $this->sendResponse($offer, 'Offer created successfully');
     }
 
     /**
@@ -61,7 +90,7 @@ class OfferController extends BaseController
      */
     public function show($id): JsonResponse
     {
-        $offer= Offer::find($id);
+        $offer = Offer::find($id);
 
         if (is_null($offer)) {
             return $this->sendError('Offer not found.');
@@ -83,14 +112,12 @@ class OfferController extends BaseController
 
         $validator = Validator::make($input, [
             'title' => 'required',
-            'url' => 'required',
-            'award' => 'required',
+            'url' => ['required', 'url'],
+            'award' => ['required', 'numeric'],
             'content' => 'required',
-            'preview_image' => '',
-            'topic_id' => '',
-            'user_id' => '',
-            'status' => '',
-            'unique_ip' => ''
+            'topic' => ['required', 'string'],
+            'preview_image' => ['required', 'image'],
+            'uniqueIp' => '',
         ]);
 
         if ($validator->fails()) {

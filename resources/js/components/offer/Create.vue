@@ -1,81 +1,90 @@
 <template>
-<div class="container">
-    <main>
-        <div class="py-5 text-center">
-            <img class="d-block mx-auto mb-4" src="/img/creation_offer.png" alt="" width="120">
-            <h2>Creation of a new advertising offer</h2>
-            <p class="lead">Fill the required fields to create an advertising offer.</p>
-        </div>
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="/img/creation_offer.png" alt="" width="120">
+                <h2>Creation of a new advertising offer</h2>
+                <p class="lead">Fill the required fields to create an advertising offer.</p>
+            </div>
 
-        <div class="row g-5">
-            <div class="col-md-5 col-lg-4 order-md-last">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your wallet</span>
-                </h4>
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (₽)</span>
-                        <strong> 0 </strong>
-                    </li>
-                </ul>
-                <!-- @if($errors->has('walletError')) -->
-                <div class="alert alert-danger" role="alert">
-                    Insufficient funds! <a href="">Please spread the word to help raise the balance.</a>
-                </div>
-                <!-- @endif -->
-            </div>
-            <div class="col-md-7 col-lg-8">
-                <form class="needs-validation" action="" enctype="multipart/form-data" method="post">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label for="title" class="form-label">Title:</label>
-                            <input v-model="title" type="text" class="form-control" id="title" name="title" value="" placeholder="Offer title" required>
-                            <div class="form-text text-danger"></div>
-                        </div>
-                        <div class="col-12">
-                            <label for="url" class="form-label">Link to your website:</label>
-                            <input v-model="url" type="url" class="form-control" value=""  id="url" name="url" placeholder="https://example.com" required>
-                        <div class="form-text text-danger"></div>
-                        </div>
-                        <div class="col-12">
-                            <label for="content" class="form-label">Main content:</label>
-                            <textarea v-model="content" class="form-control" value="" id="content" rows="10" name="content"></textarea>
-                        <div class="form-text text-danger"></div>
-                        </div>
-                        <div class="col-12">
-                            <label for="topic" class="form-label">Topic:</label>
-                            <input v-model="topic" type="text" class="form-control" value="" id="topic" name="topic" placeholder="Enter topic your website" required>
-                          <div class="form-text text-danger"></div>
-                        </div>
-                        <div class="col-12">
-                            <span>Preview image:</span>
-                            <div class="input-group mt-2">
-                                <input type="file" class="form-control" id="preview_image" name="preview_image">
-                            </div>
-                            <div class="form-text text-danger"></div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <span>Reward:</span>
-                            <div class="input-group mt-2">
-                                <span class="input-group-text">₽</span>
-                                <input v-model="award" type="number" class="form-control" value="" aria-label="Amount" name="award" step=".1" pattern="\d*">
-                            </div>
-                            <div class="form-text text-danger"></div>
-                        </div>
-                        <div class="col-12 mb-4">
-                            <div class="form-check form-switch" style="display:contents;">
-                                <label class="form-check-label me-3" for="uniqueIp"><strong>Unique ip:</strong></label>
-                                <!-- <input class="form-check-input" type="hidden" value="0" id="uniqueIp" name="uniqueIp" style="float:none;margin-left:0.5rem;transform: scale(1.8);"> -->
-                                <input v-model="uniqueIp" class="form-check-input" type="checkbox" id="uniqueIp" name="uniqueIp" style="float:none;margin-left:0.5rem;transform: scale(1.8);">
-                            </div>
-                        </div>
-                        <button class=" w-100 btn btn-primary btn-lg mb-4" type="submit">Create</button>
+            <div class="row g-5">
+                <div class="col-md-5 col-lg-4 order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Your wallet</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (₽)</span>
+                            <strong> 0 </strong>
+                        </li>
+                    </ul>
+                    <!-- @if($errors->has('walletError')) -->
+                    <div class="alert alert-danger" role="alert">
+                        Insufficient funds! <a href="">Please spread the word to help raise the balance.</a>
                     </div>
-                </form>
+                    <!-- @endif -->
+                </div>
+                <div class="col-md-7 col-lg-8">
+                    <form class="needs-validation" action="" enctype="multipart/form-data" method="post">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="title" class="form-label">Title:</label>
+                                <input v-model="title" type="text" class="form-control" id="title" name="title" value=""
+                                    placeholder="Offer title" required>
+                                <div class="form-text text-danger"></div>
+                            </div>
+                            <div class="col-12">
+                                <label for="url" class="form-label">Link to your website:</label>
+                                <input v-model="url" type="url" class="form-control" value="" id="url" name="url"
+                                    placeholder="https://example.com" required>
+                                <div class="form-text text-danger"></div>
+                            </div>
+                            <div class="col-12">
+                                <label for="content" class="form-label">Main content:</label>
+                                <textarea v-model="content" class="form-control" value="" id="content" rows="10"
+                                    name="content"></textarea>
+                                <div class="form-text text-danger"></div>
+                            </div>
+                            <div class="col-12">
+                                <label for="topic" class="form-label">Topic:</label>
+                                <input v-model="topic" type="text" class="form-control" value="" id="topic" name="topic"
+                                    placeholder="Enter topic your website" required>
+                                <div class="form-text text-danger"></div>
+                            </div>
+                            <div class="col-12">
+                                <span>Preview image:</span>
+                                <div class="input-group mt-2">
+                                    <input type="file" @change="selectImage" class="form-control" id="preview_image"
+                                        name="preview_image">
+                                </div>
+                                <div class="form-text text-danger"></div>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <span>Reward:</span>
+                                <div class="input-group mt-2">
+                                    <span class="input-group-text">₽</span>
+                                    <input v-model="award" type="number" class="form-control" value=""
+                                        aria-label="Amount" name="award" step=".1" pattern="\d*">
+                                </div>
+                                <div class="form-text text-danger"></div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <div class="form-check form-switch" style="display:contents;">
+                                    <label class="form-check-label me-3" for="uniqueIp"><strong>Unique
+                                            ip:</strong></label>
+                                    <!-- <input class="form-check-input" type="hidden" value="0" id="uniqueIp" name="uniqueIp" style="float:none;margin-left:0.5rem;transform: scale(1.8);"> -->
+                                    <input v-model="unique_ip" class="form-check-input" type="checkbox" id="unique_ip"
+                                        name="unique_ip" style="float:none;margin-left:0.5rem;transform: scale(1.8);">
+                                </div>
+                            </div>
+                            <button @click.prevent="createOffer" class=" w-100 btn btn-primary btn-lg mb-4"
+                                type="submit">Create</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
 </template>
 <script>
 export default {
@@ -87,22 +96,34 @@ export default {
             content: null,
             topic: null,
             preview_image: null,
-            reward: null,
-            uniqueIp: null
+            award: null,
+            unique_ip: false
         }
     },
     methods: {
         createOffer() {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/offers/create', { title: this.title, url: this.url,
-                    content: this.content, topic: this.topic,
-                    preview_image: this.preview_image, uniqueIp: this.uniqueIp})
+                const data = new FormData();
+                data.append('title', this.title);
+                data.append('url', this.url);
+                data.append('content', this.content);
+                data.append('topic', this.topic);
+                data.append('preview_image', this.preview_image);
+                data.append('award', this.award);
+                data.append('unique_ip', this.unique_ip);
+                axios.post('/api/offers', data)
                     .then(res => {
                         console.log(res)
                     }).catch(err => {
+                        console.log(err)
                     this.error = 'Invalid data'
                 })
             })
+        },
+        selectImage(event) {
+            this.preview_image = event.target.files[0];
+            console.log(this.uniqueIp)
+            console.log(this.preview_image)
         }
     },
     computed: {
