@@ -26,6 +26,11 @@ export default {
         user() {
         return this.$store.getters.user
     }
+    },
+    mounted() {
+        this.$nextTick(function () {
+            this.$store.dispatch('getUserData')
+        })
     }
 }
 </script>
