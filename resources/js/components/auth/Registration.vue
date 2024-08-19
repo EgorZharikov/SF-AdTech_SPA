@@ -53,8 +53,11 @@ export default {
                     password_confirmation: this.password_confirmation
                 })
                     .then(res => {
-                        sessionStorage.setItem('user', JSON.stringify(res.data))
-                        this.$router.push({ name: 'index' })
+                        if (res.data.has("name")) {
+                            sessionStorage.setItem('user', JSON.stringify(res.data))
+                            this.$router.push({ name: 'index' })
+                        }
+                        
 
                     }).catch(err => {
                         this.errors = err.response.data.errors
