@@ -27,10 +27,10 @@ export default {
         return this.$store.getters.user
     }
     },
-    mounted() {
-        this.$nextTick(function () {
-            this.$store.dispatch('getUserData')
-        })
-    }
+    // mounted() {
+    //     this.$nextTick(function () {
+    //         this.$store.dispatch('getUserData')
+    //     })
+    // }
 }
 </script>

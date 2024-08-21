@@ -46,8 +46,11 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', { email: this.email, password: this.password })
                     .then(res => {
-                        sessionStorage.setItem('user', JSON.stringify(res.data))
-                        this.$router.push({ name: 'index' })
+                        if (res.data.hasOwnProperty("name")) {
+                            sessionStorage.setItem('user', JSON.stringify(res.data))
+                            this.$store.dispatch('getUserData')
+                            this.$router.push({ name: 'index' })
+                        }
                     }).catch(err => {
                     this.error = 'Invalid password or login'
                 })

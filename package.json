@@ -18,6 +18,8 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "vue-cookie": "^1.1.4",
+        "vue-cookies": "^1.8.4",
         "vue-router": "^4.4.3",
         "vuex": "^4.0.2"
     }

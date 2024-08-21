@@ -1,4 +1,5 @@
 import 'bootstrap';
+import router from './router'
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -12,7 +13,11 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
-
+axios.interceptors.response.use({}, err => {
+    if (err.response.status === 401 || err.response.status === 419) {
+        router.push({name: 'login'})
+    }
+})
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
