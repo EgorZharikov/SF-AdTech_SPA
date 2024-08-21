@@ -26,4 +26,8 @@ class Offer extends Model
     {
         return $this->hasMany(Subscription::class, 'offer_id', 'id');
     }
+    public function getImageUrlAttribute()
+    {
+        return url('storage/' . $this->preview_image);
+    }
 }

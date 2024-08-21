@@ -20,11 +20,11 @@ class OfferResource extends JsonResource
             'url' => $this->url,
             'award' => $this->award,
             'content' => $this->content,
-            'preview_image' => $this->preview_image,
-            'topic_id' => $this->topic_id,
+            'preview_image' => $this->imageUrl,
+            'topic' => new TopicResource($this->topic),
             'user_id'=> $this->user_id,
             'status' => $this->status,
-            'unique_ip' => $this->unique_ip
+            'unique_ip' => $this->unique_ip,
         ];
     }
 }

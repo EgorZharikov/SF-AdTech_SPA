@@ -113,7 +113,7 @@ export default {
                 data.append('unique_ip', this.unique_ip);
                 axios.post('/api/offers', data)
                     .then(res => {
-                        console.log(res)
+                        this.$router.push({ name: 'offer.index' })
                     }).catch(err => {
                         console.log(err)
                     this.error = 'Invalid data'

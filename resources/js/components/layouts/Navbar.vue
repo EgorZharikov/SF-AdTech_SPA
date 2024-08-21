@@ -15,7 +15,7 @@
                         <router-link class="nav-link" :to="{name: 'index'}">Home</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Offers</a>
+                        <router-link class="nav-link" :to="{ name: 'offer.index' }">Offers</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" :to="{name: 'offer.create'}">Create offer</router-link>
