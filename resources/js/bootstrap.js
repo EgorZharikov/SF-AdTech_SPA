@@ -15,8 +15,11 @@ axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 axios.interceptors.response.use({}, err => {
     if (err.response.status === 401 || err.response.status === 419) {
+        sessionStorage.clear()
+        this.$store.dispatch('getUserData')
         router.push({name: 'login'})
     }
+    return Promise.reject(err);
 })
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

@@ -35,20 +35,17 @@ class OfferController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
-        $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'title' => 'required',
-            'url' => 'required',
-            'award' => 'required',
-            'content' => 'required',
-            'preview_image' => 'required|file|image|max:5120',
-            'unique_ip' => ''
-        ]);
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
+        $data = request()->validate([
+                'title' => 'required',
+                'url' => 'required|url',
+                'award' => 'required|numeric',
+                'content' => 'required',
+                'topic' => 'required',
+                'preview_image' => 'required|image|max:5120',
+                'unique_ip' => 'numeric',
+            ]);
 
         try {
 
@@ -70,7 +67,7 @@ class OfferController extends BaseController
                 'preview_image' => $data['preview_image'],
                 'topic_id' => $topic->id,
                 'user_id' => Auth::id(),
-                'unique_ip' => ($data['unique_ip'] === 'true' ? 1:0)
+                'unique_ip' => $data['unique_ip'],
             ]);
 
             DB::commit();

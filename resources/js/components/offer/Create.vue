@@ -29,13 +29,13 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="title" class="form-label">Title:</label>
-                                <input v-model="title" type="text" class="form-control" id="title" name="title" value=""
+                                <input v-model="title" type="text" class="form-control" id="title" name="title"
                                     placeholder="Offer title" required>
                                 <div class="form-text text-danger"></div>
                             </div>
                             <div class="col-12">
                                 <label for="url" class="form-label">Link to your website:</label>
-                                <input v-model="url" type="url" class="form-control" value="" id="url" name="url"
+                                <input v-model="url" type="url" class="form-control" id="url" name="url"
                                     placeholder="https://example.com" required>
                                 <div class="form-text text-danger"></div>
                             </div>
@@ -97,33 +97,31 @@ export default {
             topic: null,
             preview_image: null,
             award: null,
-            unique_ip: false
+            unique_ip: null,
         }
     },
     methods: {
         createOffer() {
+            let uniqueIp = this.unique_ip ? 1: 0
+            const data = new FormData();
+            data.append('title', this.title);
+            data.append('url', this.url);
+            data.append('content', this.content);
+            data.append('topic', this.topic);
+            data.append('preview_image', this.preview_image);
+            data.append('award', this.award);
+            data.append('unique_ip', uniqueIp);
             axios.get('/sanctum/csrf-cookie').then(response => {
-                const data = new FormData();
-                data.append('title', this.title);
-                data.append('url', this.url);
-                data.append('content', this.content);
-                data.append('topic', this.topic);
-                data.append('preview_image', this.preview_image);
-                data.append('award', this.award);
-                data.append('unique_ip', this.unique_ip);
                 axios.post('/api/offers', data)
                     .then(res => {
-                        this.$router.push({ name: 'offer.index' })
+                        console.log(res)  
                     }).catch(err => {
                         console.log(err)
-                    this.error = 'Invalid data'
                 })
             })
         },
         selectImage(event) {
             this.preview_image = event.target.files[0];
-            console.log(this.uniqueIp)
-            console.log(this.preview_image)
         }
     },
     computed: {
