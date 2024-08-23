@@ -14,6 +14,7 @@ const routes = [
     { path: '/offers', component: function () { return import('./components/offer/Index.vue') }, name: 'offer.index' },
     { path: '/offers/create', component: function () { return import('./components/offer/Create.vue') }, name: 'offer.create' },
     { path: '/offers/:id', component: function () { return import('./components/offer/Show.vue') }, name: 'offer.show' },
+    { path: '/offers/:id/edit', component: function () { return import('./components/offer/Edit.vue') }, name: 'offer.edit' },
 ]
 
 const router = createRouter({

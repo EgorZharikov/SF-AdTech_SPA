@@ -1,10 +1,10 @@
 <template>
     <div class="container">
-        <main>
+        <main v-if="offer">
             <div class="py-5 text-center">
                 <img class="d-block mx-auto mb-4" src="/img/creation_offer.png" alt="" width="120">
-                <h2>Creation of a new advertising offer</h2>
-                <p class="lead">Fill the required fields to create an advertising offer.</p>
+                <h2>Edit advertising offer</h2>
+                <p class="lead">Fill the required fields to edit an advertising offer.</p>
             </div>
 
             <div class="row g-5">
@@ -29,7 +29,7 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="title" class="form-label">Title:</label>
-                                <input v-model="title" type="text" class="form-control" id="title" name="title"
+                                <input v-model="title" type="text" class="form-control" value="{{ offer.title }}"  id="title" name="title"
                                     placeholder="Offer title" required>
                                 <div v-if="errors" class="form-text text-danger">
                                     <p v-for="error in errors.title">{{ error }}</p>
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                             <button @click.prevent="createOffer" class=" w-100 btn btn-primary btn-lg mb-4"
-                                type="submit">Create</button>
+                                type="submit">Update</button>
                         </div>
                     </form>
                 </div>
@@ -99,7 +99,7 @@
 </template>
 <script>
 export default {
-    name: "Offer.create",
+    name: "Offer.edit",
     data() {
         return {
             title: '',
@@ -109,12 +109,13 @@ export default {
             preview_image: '',
             award: '',
             unique_ip: '',
-            errors:  '',
+            offer: '',
+            errors: '',
         }
     },
     methods: {
         createOffer() {
-            let uniqueIp = this.unique_ip ? 1: 0
+            let uniqueIp = this.unique_ip ? 1 : 0
             const data = new FormData();
             data.append('title', this.title);
             data.append('url', this.url);
@@ -126,10 +127,22 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/offers', data)
                     .then(res => {
-                        router.push({ name: 'offer.index' }) 
+                        router.push({ name: 'offer.index' })
                     }).catch(err => {
                         this.errors = err.response.data.errors
-                })
+                    })
+            })
+        },
+        getOffer() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.get(`/api/offers/${this.$route.params.id}`)
+                    .then(res => {
+                        console.log(res.data.data)
+                        this.offer = res.data.data
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
             })
         },
         selectImage(event) {
@@ -138,8 +151,11 @@ export default {
     },
     computed: {
         user() {
-        return this.$store.getters.user
-    }
+            return this.$store.getters.user
+        }
+    },
+    created() {
+        this.getOffer() 
     }
 }
 </script>
