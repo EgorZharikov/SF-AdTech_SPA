@@ -126,7 +126,7 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/offers', data)
                     .then(res => {
-                        router.push({ name: 'offer.index' }) 
+                        this.$router.push({ name: 'offer.index' })
                     }).catch(err => {
                         this.errors = err.response.data.errors
                 })

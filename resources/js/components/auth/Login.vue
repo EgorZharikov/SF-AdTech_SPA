@@ -56,6 +56,13 @@ export default {
                 })
             })
         }
+    }, computed: {
+        user() {
+            return this.$store.getters.user
+        }
+    },
+    mounted() {
+        this.$store.dispatch('getUserData')
     }
 }
 </script>

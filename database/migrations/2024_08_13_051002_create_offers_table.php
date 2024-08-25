@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
-            $table->string('url')->nullable(false)->nullable(false);
+            $table->string('title')->nullable(false);
+            $table->string('url')->nullable(false);
             $table->decimal('award')->nullable(false);
             $table->text('content')->nullable(false);
             $table->text('preview_image')->nullable(false);

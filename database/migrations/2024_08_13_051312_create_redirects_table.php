@@ -17,8 +17,10 @@ return new class extends Migration
             $table->unsignedBigInteger('fee_id');
             $table->integer('ip')->unsigned();
             $table->boolean('status');
+            $table->decimal('offer_award')->nullable(false);
             $table->timestamps();
             $table->softDeletes();
+            
 
             $table->index('subscription_id', 'redirect_subscription_idx');
             $table->foreign('subscription_id', 'redirect_subscription_fk')->references('id')->on('subscriptions')->cascadeOnDelete();

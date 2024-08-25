@@ -15,6 +15,14 @@ const routes = [
     { path: '/offers/create', component: function () { return import('./components/offer/Create.vue') }, name: 'offer.create' },
     { path: '/offers/:id', component: function () { return import('./components/offer/Show.vue') }, name: 'offer.show' },
     { path: '/offers/:id/edit', component: function () { return import('./components/offer/Edit.vue') }, name: 'offer.edit' },
+    { path: '/webmaster/subscriptions', component: function () { return import('./components/webmaster/Subscrption.vue') }, name: 'webmaster.subscriptions' },
+    { path: '/webmaster/wallet', component: function () { return import('./components/webmaster/Wallet.vue') }, name: 'webmaster.wallet' },
+    { path: '/webmaster/statistics', component: function () { return import('./components/webmaster/Statistics.vue') }, name: 'webmaster.statistics' },
+    { path: '/webmaster/profile', component: function () { return import('./components/webmaster/Profile.vue') }, name: 'webmaster.profile' },
+    { path: '/advertiser/profile', component: function () { return import('./components/advertiser/Profile.vue') }, name: 'advertiser.profile' },
+    { path: '/advertiser/wallet', component: function () { return import('./components/advertiser/Wallet.vue') }, name: 'advertiser.wallet' },
+    { path: '/advertiser/statistics', component: function () { return import('./components/advertiser/Statistics.vue') }, name: 'advertiser.statistics' },
+    { path: '/advertiser/offers', component: function () { return import('./components/advertiser/Offers.vue') }, name: 'advertiser.offers' },
 ]
 
 const router = createRouter({

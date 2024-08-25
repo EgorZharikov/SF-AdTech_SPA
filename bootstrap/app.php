@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Subscribed;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,6 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+    $middleware->alias([
+        'subscribed' => Subscribed::class,
+    ]);
         $middleware->statefulApi();
     })
     ->withExceptions(function (Exceptions $exceptions) {

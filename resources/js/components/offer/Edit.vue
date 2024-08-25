@@ -29,10 +29,11 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="title" class="form-label">Title:</label>
-                                <input v-model="title" type="text" class="form-control" value="{{ offer.title }}"  id="title" name="title"
+                                <input v-model="title" type="text" class="form-control" id="title" name="title"
                                     placeholder="Offer title" required>
                                 <div v-if="errors" class="form-text text-danger">
                                     <p v-for="error in errors.title">{{ error }}</p>
+                                    
                                 </div>
                             </div>
                             <div class="col-12">
@@ -88,7 +89,7 @@
                                         name="unique_ip" style="float:none;margin-left:0.5rem;transform: scale(1.8);">
                                 </div>
                             </div>
-                            <button @click.prevent="createOffer" class=" w-100 btn btn-primary btn-lg mb-4"
+                            <button @click.prevent="updateOffer" class=" w-100 btn btn-primary btn-lg mb-4"
                                 type="submit">Update</button>
                         </div>
                     </form>
@@ -114,7 +115,8 @@ export default {
         }
     },
     methods: {
-        createOffer() {
+        updateOffer() {
+            console.log(this.title)
             let uniqueIp = this.unique_ip ? 1 : 0
             const data = new FormData();
             data.append('title', this.title);
@@ -124,11 +126,13 @@ export default {
             data.append('preview_image', this.preview_image);
             data.append('award', this.award);
             data.append('unique_ip', uniqueIp);
+            data.append('_method', 'PATCH');
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/api/offers', data)
+                axios.post(`/api/offers/${this.$route.params.id}`, data)
                     .then(res => {
-                        router.push({ name: 'offer.index' })
+                        this.$router.push({ name: 'offer.index' })
                     }).catch(err => {
+                        console.log(err)
                         this.errors = err.response.data.errors
                     })
             })
@@ -139,9 +143,16 @@ export default {
                     .then(res => {
                         console.log(res.data.data)
                         this.offer = res.data.data
-
+                        this.title = this.offer.title
+                        this.url = res.data.data.url
+                        this.content = res.data.data.content
+                        this.topic = res.data.data.topic.name
+                        this.award = res.data.data.award
+                        this.unique_ip = Boolean(res.data.data.unique_ip)
                     }).catch(err => {
                         console.log(err)
+                        this.errors = err
+                        this.errors = err.response.data.errors
                     })
             })
         },
@@ -152,9 +163,12 @@ export default {
     computed: {
         user() {
             return this.$store.getters.user
+        },
+        offer() {
+           return this.offer
         }
     },
-    created() {
+    mounted() {
         this.getOffer() 
     }
 }

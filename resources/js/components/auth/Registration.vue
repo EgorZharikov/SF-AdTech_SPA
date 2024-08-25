@@ -53,13 +53,15 @@ export default {
                     password_confirmation: this.password_confirmation
                 })
                     .then(res => {
-                        if (res.data.has("name")) {
+                        console.log(res)
+                        if (res.data.hasOwnProperty("name")) {
                             sessionStorage.setItem('user', JSON.stringify(res.data))
+                            this.$store.dispatch('getUserData')
                             this.$router.push({ name: 'index' })
                         }
                         
-
                     }).catch(err => {
+                        console.log(err)
                         this.errors = err.response.data.errors
                 })
             })
@@ -75,5 +77,13 @@ export default {
             errors: null
         }
     },
+    computed: {
+        user() {
+            return this.$store.getters.user
+        }
+    },
+    mounted() {
+        this.$store.dispatch('getUserData')
+    }
 }
 </script>

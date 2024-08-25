@@ -23,15 +23,33 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a href="#" class="text-white nav-link">
+                        <a @click.prevent="statistics" href="" class="text-white nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cornflowerblue"
-                                class="bi bi-speedometer" viewBox="0 0 16 16">
+                                class="bi bi-table" viewBox="0 0 16 16">
                                 <path
-                                    d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z" />
-                                <path fill-rule="evenodd"
-                                    d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z" />
+                                    d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
                             </svg>
-                            Dashboard
+                            Statistics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <router-link :to="{ name: 'webmaster.subscriptions' }" class="text-white nav-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cornflowerblue"
+                                class="bi bi-star-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                            </svg>
+                            Subscriptions
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <a @click.prevent="wallet" class="text-white nav-link" href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cornflowerblue"
+                                class="bi bi-wallet2" viewBox="0 0 16 16">
+                                <path
+                                    d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
+                            </svg>
+                            Wallet
                         </a>
                     </li>
                     <li class="nav-item">
@@ -79,7 +97,35 @@ export default {
                     this.$store.dispatch('getUserData')
                     this.$router.push({ name: 'index' })
                 })
-        }
+        },
+        wallet() {
+            switch (Number(this.user.role_id)) {
+                case 1:
+                    this.$router.push({ name: 'advertiser.wallet' })
+                    break;
+                case 2:
+                    this.$router.push({ name: 'webmaster.wallet' })
+                    break;
+                case 3:
+                    this.$router.push({ name: 'administrator.wallet' })
+                    break;
+            }
+            
+        },
+        statistics() {
+            switch (Number(this.user.role_id)) {
+                case 1:
+                    this.$router.push({ name: 'advertiser.statistics' })
+                    break;
+                case 2:
+                    this.$router.push({ name: 'webmaster.statistics' })
+                    break;
+                case 3:
+                    this.$router.push({ name: 'administrator.statistics' })
+                    break;
+            }
+        },
+
 
     },
     computed: {

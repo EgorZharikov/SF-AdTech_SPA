@@ -26,15 +26,15 @@
 
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                    <button v-if="isWebmaster" type="submit"
+                    <button v-if="isWebmaster,!subscribed" @click.prevent="subscribe"
                         class="btn btn-success btn-lg px-4 me-md-2 fw-bold">Subscribe</button>
 
-                    <button v-if="isWebmaster" type="submit" class="btn btn btn-dark btn-lg px-4">Unsubscribe</button>
+                    <button v-if="isWebmaster, subscribed" @click.prevent="unsubscribe" class="btn btn btn-dark btn-lg px-4">Unsubscribe</button>
 
-                    <router-link v-if="isAuthor" :to="{ name: 'offer.edit', params: { id: offer.id } }" class="btn btn-primary btn-lg px-4 me-3">Edit</router-link>
-                        <button v-if="isAuthor" type="submit"
-                            class="btn btn btn-dark btn-lg px-4 me-3">Unpublish</button>
-                        <button v-if="isAuthor" type="submit" class="btn btn btn-success btn-lg px-4">Publish</button>
+                    <router-link v-if="isAuthor" :to="{ name: 'offer.edit', params: { id: offer.id } }"
+                        class="btn btn-primary btn-lg px-4 me-3">Edit</router-link>
+                    <button v-if="isAuthor" type="submit" class="btn btn btn-dark btn-lg px-4 me-3">Unpublish</button>
+                    <button v-if="isAuthor" type="submit" class="btn btn btn-success btn-lg px-4">Publish</button>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1 p-0 overflow-hidden shadow-lg">
@@ -47,7 +47,8 @@
 export default {
     data() {
         return {
-            offer:null
+            offer: null,
+            subscribed: null
         }
     },
     created() {
@@ -58,6 +59,7 @@ export default {
             }
         )
         this.getOffer()
+        this.subscription()
     },
     methods: {
         getOffer() {
@@ -71,14 +73,48 @@ export default {
                         console.log(err)
                     })
             })
+        },
+        subscribe() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post(`/api/offers/${this.$route.params.id}/subscribe`)
+                    .then(res => {
+                        console.log(res)
+                        this.subscription()
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
+        },
+        unsubscribe() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post(`/api/offers/${this.$route.params.id}/unsubscribe`)
+                    .then(res => {
+                        console.log(res)
+                        this.subscription()
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
+        },
+        subscription() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.get(`/api/offers/${this.$route.params.id}/subscription`)
+                    .then(res => {
+                        this.subscribed = Number(res.data.subscribed)
+                        console.log(this.subscribed)
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
         }
     },
     computed: {
         isAdvertiser() {
-            return this.$store.getters.user.role_id === 1;
+            return this.$store.getters.user.role_id === '1';
         },
         isWebmaster() {
-            return this.$store.getters.user.role_id === 2;
+            return this.$store.getters.user.role_id === '2';
         },
         isAuthor() {
             return this.$store.getters.user.id === this.offer.user_id
