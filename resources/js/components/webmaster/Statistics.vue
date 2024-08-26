@@ -18,7 +18,6 @@
                     <tr>
                         <th scope="col">Referal code</th>
                         <th scope="col">Redirects</th>
-                        <th scope="col">Award for redirect</th>
                         <th scope="col">Service fee</th>
                         <th scope="col">Award</th>
                     </tr>
@@ -28,14 +27,12 @@
                     <tr v-for="totalStat in totalStats">
                         <th scope="row">{{ totalStat.referal_link }}</th>
                         <td>{{ totalStat.redirects_count }}</td>
-                        <td>{{ totalStat.referal_link }}</td>
                         <td>{{ totalStat.fee }}</td>
                         <th scope="row"> {{ totalStat.award }}
                         </th>
                     </tr>
                     <!-- @endforeach -->
                     <tr>
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -49,10 +46,10 @@
         <div class="row align-items-center d-inline-flex">
             <div class="justify-content-center d-inline-flex">
                 <form>
-                    <input type="date" name="date" class="m-4" style="transform: scale(1.3);" />
-                    <button type="submit" name="day" class="btn btn-outline-dark ms-1">Day</button>
-                    <button type="submit" name="month" class="btn btn-outline-dark ms-1">Month</button>
-                    <button type="submit" name="year" class="btn btn-outline-dark ms-1">Year</button>
+                    <input v-model="userDate" type="date" name="date" class="m-4" style="transform: scale(1.3);" />
+                    <button @click.prevent="dayStatistics" type="submit" name="day" class="btn btn-outline-dark ms-1">Day</button>
+                    <button @click.prevent="monthStatistics" type="submit" name="month" class="btn btn-outline-dark ms-1">Month</button>
+                    <button @click.prevent="yearStatistics" type="submit" name="year" class="btn btn-outline-dark ms-1">Year</button>
                 </form>
             </div>
         </div>
@@ -64,19 +61,17 @@
                     <tr>
                         <th scope="col">Referal code</th>
                         <th scope="col">Redirects</th>
-                        <th scope="col">Award for redirect</th>
                         <th scope="col">Service fee</th>
                         <th scope="col">Award</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- @foreach ($dateStatistics as $dateStatistic) -->
-                    <tr v-for="totalStat in totalStats">
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <th scope="row">
+                    <tr v-for="dateStat in dateStats">
+                        <th scope="row">{{ dateStat.referal_link }}</th>
+                        <td>{{ dateStat.redirects_count }}</td>
+                        <td>{{ dateStat.fee }}</td>
+                        <th scope="row">{{  dateStat.award }}
                         </th>
                     </tr>
                     <!-- @endforeach -->
@@ -84,8 +79,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <th scope="row">Σ {{ this.totalAward }}</th>
+                        <th scope="row">Σ {{ this.dateAward}}</th>
                     </tr>
                 </tbody>
             </table>
@@ -98,6 +92,9 @@ export default {
         return {
             totalStats: null,
             totalAward: null,
+            dateStats: null,
+            dateAward: null,
+            userDate: null,
         }
     },
     methods: {
@@ -108,6 +105,45 @@ export default {
                         console.log(res)
                         this.totalStats = res.data.statistics
                         this.totalAward = res.data.totalAward
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
+        },
+        dayStatistics() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post('/api/webmaster/statistics', {date: this.userDate, day: true})
+                    .then(res => {
+                        console.log(res)
+                        this.dateStats = res.data.dateStatistics
+                        this.dateAward = res.data.dateAward
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
+        },
+        monthStatistics() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post('/api/webmaster/statistics', { date: this.userDate, month: true })
+                    .then(res => {
+                        console.log(res)
+                        this.dateStats = res.data.dateStatistics
+                        this.dateAward = res.data.dateAward
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
+        },
+        yearStatistics() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post('/api/webmaster/statistics', { date: this.userDate, year: true })
+                    .then(res => {
+                        console.log(res)
+                        this.dateStats = res.data.dateStatistics
+                        this.dateAward = res.data.dateAward
 
                     }).catch(err => {
                         console.log(err)

@@ -27,4 +27,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('wallet', [WalletController::class, 'update']);
     Route::get('webmaster/subscriptions', [SubscriptionController::class, 'index']);
     Route::get('webmaster/statistics', [WebmasterController::class, 'statistics']);
+    Route::get('webmaster/statistics', [WebmasterController::class, 'statistics']);
+    Route::post('webmaster/statistics', [WebmasterController::class, 'statistics']);
 });

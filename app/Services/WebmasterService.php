@@ -7,8 +7,9 @@ use App\Models\Fee;
 use App\Models\Offer;
 use App\Models\Redirect;
 use App\Models\Subscription;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\Database\Query\Builder;
 
 class WebmasterService
@@ -20,7 +21,7 @@ class WebmasterService
 
 
 
-    public function dayStatistics(Request $request): array
+    public function dayStatistics(): array
     {
         $this->dateAward = 0;
         $this->dateStatistics = [];
@@ -33,11 +34,12 @@ class WebmasterService
         foreach ($subscriptions as $subscription) {
 
             foreach ($subscription->redirects as $redirect) {
-                $subscription->award = round(Offer::where('id', $subscription->offer_id)->first()->award, 2);
                 $fee = Fee::where('id', $redirect->fee_id)->first()->percent;
-                $subscription->fee = round($subscription->award * ($fee / 100), 2);
+                $subscription->fee = round($redirect->offer_award * ($fee / 100) * $subscription->redirects_count, 2);
+                $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
+                $subscription->user_fee = $fee;
+                $this->dateAward += round($redirect->offer_award - ($redirect->offer_award * ($fee / 100)), 2);
             }
-            $this->dateAward += round($subscription->redirects_count * ($subscription->award - $subscription->fee), 2);
             $this->dateStatistics[] = $subscription;
         }
 
@@ -58,11 +60,12 @@ class WebmasterService
         foreach ($subscriptions as $subscription) {
 
             foreach ($subscription->redirects as $redirect) {
-                $subscription->award = round(Offer::where('id', $subscription->offer_id)->first()->award, 2);
                 $fee = Fee::where('id', $redirect->fee_id)->first()->percent;
-                $subscription->fee = round($subscription->award * ($fee / 100), 2);
+                $subscription->fee = round($redirect->offer_award * ($fee / 100) * $subscription->redirects_count, 2);
+                $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
+                $subscription->user_fee = $fee;
+                $this->dateAward += round($redirect->offer_award - ($redirect->offer_award * ($fee / 100)), 2);
             }
-            $this->dateAward += round($subscription->redirects_count * ($subscription->award - $subscription->fee), 2);
             $this->dateStatistics[] = $subscription;
         }
 
@@ -82,11 +85,12 @@ class WebmasterService
         foreach ($subscriptions as $subscription) {
 
             foreach ($subscription->redirects as $redirect) {
-                $subscription->award = round(Offer::where('id', $subscription->offer_id)->first()->award, 2);
                 $fee = Fee::where('id', $redirect->fee_id)->first()->percent;
-                $subscription->fee = round($subscription->award * ($fee / 100), 2);
+                $subscription->fee = round($redirect->offer_award * ($fee / 100) * $subscription->redirects_count, 2);
+                $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
+                $subscription->user_fee = $fee;
+                $this->dateAward += round($redirect->offer_award - ($redirect->offer_award * ($fee / 100)), 2);
             }
-            $this->dateAward += round($subscription->redirects_count * ($subscription->award - $subscription->fee), 2);
             $this->dateStatistics[] = $subscription;
         }
         return $this->dateStatistics;

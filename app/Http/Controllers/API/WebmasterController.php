@@ -16,6 +16,9 @@ class WebmasterController extends BaseController
 {
     public function statistics(Request $request)
     {
+        $data = request()->validate([
+            'date' => 'date',
+        ]);
         $statistics = [];
         $totalAward = 0;
         $userDate = $request->date;
@@ -27,26 +30,25 @@ class WebmasterController extends BaseController
         $statistics = $webmasterService->statisctics();
         $totalAward = round($webmasterService->totalAward,2);
 
-        return response()->json(['statistics' => $statistics, 'totalAward' => $totalAward], 200);
-        // if ($request->has('day')) {
-        //     $dateStatistics = $webmasterService->dayStatistics();
-        //     $dateAward = $webmasterService->dateAward;
-        // }
+        if ($request->has('day')) {
+            $dateStatistics = $webmasterService->dayStatistics();
+            $dateAward = $webmasterService->dateAward;
+            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
+        }
 
-        // if ($request->has('month')) {
-        //     $dateStatistics = $webmasterService->monthStatistics();
-        //     $dateAward = $webmasterService->dateAward;
-        // }
+        if ($request->has('month')) {
+            $dateStatistics = $webmasterService->monthStatistics();
+            $dateAward = $webmasterService->dateAward;
+            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
+        }
 
-        // if ($request->has('year')) {
-        //     $dateStatistics = $webmasterService->yearStatistics();
-        //     $dateAward = $webmasterService->dateAward;
-        // }
-
+        if ($request->has('year')) {
+            $dateStatistics = $webmasterService->yearStatistics();
+            $dateAward = $webmasterService->dateAward;
+            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
+        }
+        return response()->json(['statistics' => $statistics, 'totalAward' => $totalAward, "userDate" => $userDate], 200);
     }
 
-    public function statisticsDate() {
-
-    }
 
 }
