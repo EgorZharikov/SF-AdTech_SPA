@@ -7,6 +7,7 @@ use App\Models\Fee;
 use App\Models\Offer;
 use App\Models\Redirect;
 use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -119,5 +120,12 @@ class WebmasterService
         }
 
         return $this->statistics;
+    }
+
+    public function profile()
+    {
+        $user = User::where('id', Auth::id())->with('fee')->first();
+
+        return $user;
     }
 }

@@ -211,4 +211,22 @@ class OfferController extends BaseController
 
         return response()->json(['subscribed' => 1], 200);
     }
+
+    public function unpublish(Offer $offer)
+    {
+        $offer->status = 0;
+        $offer->save();
+        $offer->refresh();
+
+        return $this->sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
+    }
+
+    public function publish(Offer $offer)
+    {
+        $offer->status = 1;
+        $offer->save();
+        $offer->refresh();
+
+        return $this->sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
+    }
 }

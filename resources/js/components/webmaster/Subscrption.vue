@@ -1,8 +1,9 @@
 <template>
-    <div class="container text-center m-4">
-        <div v-if="subscriptions" class="row align-items-start">
+    <div class="container text-center">
+            <h1 class="m-5">Subscribtions</h1>
+        <div v-if="subscriptions" class="row justify-content-center align-items-center">
             <!-- @foreach ($subscriptions as $subscription) -->
-            <div v-for="subscription in subscriptions" class="col-sm-3 m-3">
+            <div v-for="subscription in subscriptions" class="col-3 m-2 justify-content-center align-items-center">
                 <div class="card" style="width: 20rem;">
                     <div class="card-body">
                         <h5 class="card-title">{{ subscription.offer.title }}</h5>
@@ -21,7 +22,8 @@
                             `${this.host}/redirects/${subscription.referal_link}` }} </li>
                     </ul>
                     <div class="card-body d-flex justify-content-center">
-                        <router-link :to="{ name: 'offer.show', params: { id: subscription.offer.id } }" class="btn btn-primary me-3">Explore</router-link>
+                        <router-link :to="{ name: 'offer.show', params: { id: subscription.offer.id } }"
+                            class="btn btn-primary me-3">Explore</router-link>
                     </div>
                 </div>
             </div>

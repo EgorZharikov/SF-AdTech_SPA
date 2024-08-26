@@ -20,21 +20,17 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-danger" role="alert">
-                        errors
-                    </div>
-
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                    <button v-if="isWebmaster,!subscribed" @click.prevent="subscribe"
+                    <button v-if="isWebmaster && !subscribed" @click.prevent="subscribe"
                         class="btn btn-success btn-lg px-4 me-md-2 fw-bold">Subscribe</button>
 
-                    <button v-if="isWebmaster, subscribed" @click.prevent="unsubscribe" class="btn btn btn-dark btn-lg px-4">Unsubscribe</button>
+                    <button v-if="isWebmaster && subscribed" @click.prevent="unsubscribe" class="btn btn btn-dark btn-lg px-4">Unsubscribe</button>
 
                     <router-link v-if="isAuthor" :to="{ name: 'offer.edit', params: { id: offer.id } }"
                         class="btn btn-primary btn-lg px-4 me-3">Edit</router-link>
-                    <button v-if="isAuthor" type="submit" class="btn btn btn-dark btn-lg px-4 me-3">Unpublish</button>
-                    <button v-if="isAuthor" type="submit" class="btn btn btn-success btn-lg px-4">Publish</button>
+                    <button v-if="isAuthor && Number(offer.status) === 1" @click.prevent="unpublish" type="submit" class="btn btn btn-dark btn-lg px-4 me-3">Unpublish</button>
+                    <button v-if="isAuthor && Number(offer.status) !== 1" @click.prevent="publish" type="submit" class="btn btn btn-success btn-lg px-4">Publish</button>
                 </div>
             </div>
             <div class="col-lg-3 offset-lg-1 p-0 overflow-hidden shadow-lg">
@@ -107,17 +103,39 @@ export default {
                         console.log(err)
                     })
             })
+        },
+        publish() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.get(`/api/offers/${this.$route.params.id}/publish`)
+                    .then(res => {
+                        this.offer = res.data.data
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
+        },
+        unpublish() {
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.get(`/api/offers/${this.$route.params.id}/unpublish`)
+                    .then(res => {
+                        this.offer = res.data.data
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            })
         }
     },
     computed: {
         isAdvertiser() {
-            return this.$store.getters.user.role_id === '1';
+            return Number(this.$store.getters.user.role_id) === 1;
         },
         isWebmaster() {
-            return this.$store.getters.user.role_id === '2';
+            return Number(this.$store.getters.user.role_id) === 2;
         },
         isAuthor() {
-            return this.$store.getters.user.id === this.offer.user_id
+            return Number(this.$store.getters.user.id) === Number(this.offer.user_id)
         }
     }
 }

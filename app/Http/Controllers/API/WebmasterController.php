@@ -32,23 +32,29 @@ class WebmasterController extends BaseController
 
         if ($request->has('day')) {
             $dateStatistics = $webmasterService->dayStatistics();
-            $dateAward = $webmasterService->dateAward;
+            $dateAward = round($webmasterService->dateAward,2);
             return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
         }
 
         if ($request->has('month')) {
             $dateStatistics = $webmasterService->monthStatistics();
-            $dateAward = $webmasterService->dateAward;
+            $dateAward = round($webmasterService->dateAward,2);
             return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
         }
 
         if ($request->has('year')) {
             $dateStatistics = $webmasterService->yearStatistics();
-            $dateAward = $webmasterService->dateAward;
+            $dateAward = round($webmasterService->dateAward,2);
             return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
         }
         return response()->json(['statistics' => $statistics, 'totalAward' => $totalAward, "userDate" => $userDate], 200);
     }
 
+    public function profile()
+    {
+        $webmasterService = (new WebmasterService);
+        $user = $webmasterService->profile();
+        return response()->json($user, 200);
+    }
 
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\API\WebmasterController;
 use App\Http\Controllers\API\WalletController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\SubscriptionController;
+use App\Http\Controllers\API\AdvertiserController;
 
 
 Route::controller(RegisterController::class)->group(function () {
@@ -23,10 +24,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('offers/{offer}/subscribe', [OfferController::class, 'subscribe']);
     Route::post('offers/{offer}/unsubscribe', [OfferController::class, 'unsubscribe']);
     Route::get('offers/{offer}/subscription', [OfferController::class, 'subscription']);
+    Route::get('offers/{offer}/publish', [OfferController::class, 'publish']);
+    Route::get('offers/{offer}/unpublish', [OfferController::class, 'unpublish']);
     Route::get('wallet', [WalletController::class, 'show']);
     Route::patch('wallet', [WalletController::class, 'update']);
     Route::get('webmaster/subscriptions', [SubscriptionController::class, 'index']);
     Route::get('webmaster/statistics', [WebmasterController::class, 'statistics']);
     Route::get('webmaster/statistics', [WebmasterController::class, 'statistics']);
     Route::post('webmaster/statistics', [WebmasterController::class, 'statistics']);
+    Route::get('webmaster/profile', [WebmasterController::class, 'profile']);
+    Route::get('advertiser/offers', [AdvertiserController::class, 'offers']);
+    Route::get('advertiser/profile', [AdvertiserController::class, 'profile']);
 });
