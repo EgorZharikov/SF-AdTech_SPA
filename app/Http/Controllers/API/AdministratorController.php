@@ -44,45 +44,6 @@ class AdministratorController extends BaseController
         return response()->json(['statistics' => $statistics], 200);
     }
 
-    public function users()
-    {
-        return view('dashboard.administrator.users');
-    }
-
-    public function createUser()
-    {
-        return view('dashboard.administrator.users.create');
-    }
-
-    public function storeUser()
-    {
-        return UserService::store();
-    }
-
-    public function controlUser()
-    {
-        return view('dashboard.administrator.users.control');
-    }
-
-    public function userList()
-    {
-        $users = User::with('role')->paginate(20);
-        return view('dashboard.administrator.users.index', compact('users'));
-    }
-
-    public function updateUser(User $user, Request $request)
-    {
-        if ($request->has('ban')) {
-            UserService::ban($user);
-        }
-
-        if ($request->has('unban')) {
-            UserService::unban($user);
-        }
-        $users = User::with('role')->get();
-        return view('dashboard.administrator.users.index', compact('users'));
-    }
-
     public function wallet()
     {
         $wallet =  Wallet::where('system_code', 101)->first();

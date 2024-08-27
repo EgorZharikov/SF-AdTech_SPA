@@ -11,7 +11,7 @@ use App\Http\Controllers\API\WalletController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\SubscriptionController;
 use App\Http\Controllers\API\AdvertiserController;
-
+use App\Http\Controllers\API\UserController;
 
 Route::controller(RegisterController::class)->group(function () {
     Route::post('register', 'register');
@@ -39,4 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('advertiser/statistics', [AdvertiserController::class, 'statistics']);
     Route::post('advertiser/statistics', [AdvertiserController::class, 'statistics']);
     Route::get('administrator/statistics', [AdministratorController::class, 'statistics']);
+    Route::post('administrator/statistics', [AdministratorController::class, 'statistics']);
+    Route::get('users', [UserController::class, 'index']);
+    Route::post('users', [UserController::class, 'store']);
+    Route::patch('users/{user}/ban', [UserController::class, 'ban']);
+    Route::patch('users/{user}/unban', [UserController::class, 'unban']);
+
 });

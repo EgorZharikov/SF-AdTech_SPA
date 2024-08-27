@@ -77,7 +77,7 @@
                         <td>{{ dateStat.offersPublicated }}</td>
                         <td>{{ dateStat.redirectsSuccess }}</td>
                         <td>{{ dateStat.redirectsFail }}</td>
-                        <th scope="row"> {{ dateStat.totalIncome }}
+                        <th scope="row"> {{ dateStat.dateIncome }}
                         </th>
                     </tr>
                 </tbody>
@@ -91,7 +91,6 @@ export default {
         return {
             totalStats: null,
             dateStats: null,
-            dateIncome: null,
             userDate: null,
         }
     },
@@ -110,11 +109,10 @@ export default {
         },
         dayStatistics() {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/api/advertiser/statistics', { date: this.userDate, day: true })
+                axios.post('/api/administrator/statistics', { date: this.userDate, day: true })
                     .then(res => {
                         console.log(res)
                         this.dateStats = res.data.dateStatistics
-                        this.dateCost = res.data.dateCost
 
                     }).catch(err => {
                         console.log(err)
@@ -123,11 +121,10 @@ export default {
         },
         monthStatistics() {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/api/advertiser/statistics', { date: this.userDate, month: true })
+                axios.post('/api/administrator/statistics', { date: this.userDate, month: true })
                     .then(res => {
                         console.log(res)
                         this.dateStats = res.data.dateStatistics
-                        this.dateCost = res.data.dateCost
 
                     }).catch(err => {
                         console.log(err)
@@ -136,11 +133,10 @@ export default {
         },
         yearStatistics() {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/api/advertiser/statistics', { date: this.userDate, year: true })
+                axios.post('/api/administrator/statistics', { date: this.userDate, year: true })
                     .then(res => {
                         console.log(res)
                         this.dateStats = res.data.dateStatistics
-                        this.dateCost = res.data.dateCost
 
                     }).catch(err => {
                         console.log(err)

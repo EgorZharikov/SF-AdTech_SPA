@@ -35,7 +35,7 @@ class AdministratorService
             $this->totalIncome += round($transaction->value, 2);
         }
 
-        $this->statistics[] = ['offersCreated' => $offers, 'offersPublicated' => $offersPublicated, 'refLinkCount' => $refLinkCount, 'refLinkTotal' => $refLinkTotal, 'redirectsSuccess' => $redirectsSuccess, 'redirectsFail' => $redirectsFail, 'totalIncome' => round($this->totalIncome)];
+        $this->statistics[] = ['offersCreated' => $offers, 'offersPublicated' => $offersPublicated, 'refLinkCount' => $refLinkCount, 'refLinkTotal' => $refLinkTotal, 'redirectsSuccess' => $redirectsSuccess, 'redirectsFail' => $redirectsFail, 'totalIncome' => round($this->totalIncome,2)];
         return $this->statistics;
     }
 
