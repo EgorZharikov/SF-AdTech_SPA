@@ -12,7 +12,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input v-model="password" type="password" name="password" class="form-control" id="password">
+                        <input v-model="password" type="password" autocomplete="off" name="password"
+                            class="form-control" id="password">
                     </div>
                     <div class="d-grid gap-2">
                         <button @click.prevent="login" type="submit" name="signin"
@@ -23,7 +24,8 @@
                         <label class="form-check-label" for="exampleCheck1">Сохранить вход</label>
                     </div>
 
-                    <div class="account-logo mt-3 text-center"><router-link to="/registration">Создать аккаунт</router-link></div>
+                    <div class="account-logo mt-3 text-center"><router-link to="/registration">Создать
+                            аккаунт</router-link></div>
                     <div v-if="error" class="alert alert-danger mt-3" role="alert">{{ this.error }}</div>
                 </form>
             </div>

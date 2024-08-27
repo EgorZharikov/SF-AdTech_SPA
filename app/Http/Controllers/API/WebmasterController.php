@@ -21,7 +21,6 @@ class WebmasterController extends BaseController
         ]);
         $statistics = [];
         $totalAward = 0;
-        $userDate = $request->date;
         $dateStatistics = [];
         $dateAward = 0;
 
@@ -33,21 +32,21 @@ class WebmasterController extends BaseController
         if ($request->has('day')) {
             $dateStatistics = $webmasterService->dayStatistics();
             $dateAward = round($webmasterService->dateAward,2);
-            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
+            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward], 200);
         }
 
         if ($request->has('month')) {
             $dateStatistics = $webmasterService->monthStatistics();
             $dateAward = round($webmasterService->dateAward,2);
-            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
+            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward], 200);
         }
 
         if ($request->has('year')) {
             $dateStatistics = $webmasterService->yearStatistics();
             $dateAward = round($webmasterService->dateAward,2);
-            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward, "userDate" => $userDate], 200);
+            return response()->json(['dateStatistics' => $dateStatistics, 'dateAward' => $dateAward], 200);
         }
-        return response()->json(['statistics' => $statistics, 'totalAward' => $totalAward, "userDate" => $userDate], 200);
+        return response()->json(['statistics' => $statistics, 'totalAward' => $totalAward], 200);
     }
 
     public function profile()

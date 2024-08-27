@@ -23,6 +23,12 @@ const routes = [
     { path: '/advertiser/wallet', component: function () { return import('./components/advertiser/Wallet.vue') }, name: 'advertiser.wallet' },
     { path: '/advertiser/statistics', component: function () { return import('./components/advertiser/Statistics.vue') }, name: 'advertiser.statistics' },
     { path: '/advertiser/offers', component: function () { return import('./components/advertiser/Offers.vue') }, name: 'advertiser.offers' },
+    { path: '/administrator/profile', component: function () { return import('./components/administrator/Profile.vue') }, name: 'administrator.profile' },
+    { path: '/administrator/wallet', component: function () { return import('./components/administrator/Wallet.vue') }, name: 'administrator.wallet' },
+    { path: '/administrator/users', component: function () { return import('./components/administrator/Users.vue') }, name: 'administrator.users' },
+    { path: '/administrator/statistics', component: function () { return import('./components/administrator/Statistics.vue') }, name: 'administrator.statistics' },
+
+
 ]
 
 const router = createRouter({

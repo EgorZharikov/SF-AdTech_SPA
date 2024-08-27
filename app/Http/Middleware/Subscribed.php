@@ -16,7 +16,7 @@ class Subscribed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Subscription::where('referal_link', $request->referal_link)->exists()) {
+        if (Subscription::where('referal_link', $request->referal_link)->where('status', 1)->exists()) {
             return $next($request);
         } else {
             abort(404);

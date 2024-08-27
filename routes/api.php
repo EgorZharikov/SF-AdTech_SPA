@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AdministratorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('webmaster/profile', [WebmasterController::class, 'profile']);
     Route::get('advertiser/offers', [AdvertiserController::class, 'offers']);
     Route::get('advertiser/profile', [AdvertiserController::class, 'profile']);
+    Route::get('advertiser/statistics', [AdvertiserController::class, 'statistics']);
+    Route::post('advertiser/statistics', [AdvertiserController::class, 'statistics']);
+    Route::get('administrator/statistics', [AdministratorController::class, 'statistics']);
 });
