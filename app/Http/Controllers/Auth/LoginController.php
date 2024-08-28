@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -30,7 +31,11 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        return response()->json($user, 200);
+        if (Auth::check() && Auth::user()->banned_at) {
+            Auth::guard('web')->logout();
+            return response()->json(['errors' => ['Your account has been banned, please contact the administrator!']], 401);
+        }
+        return response()->json(['data' => $user, 'message' => 'Authenticated success!'], 200);
     }
 
     /**

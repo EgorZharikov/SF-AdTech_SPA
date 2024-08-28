@@ -17,10 +17,9 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('login', 'login');
 });
+Route::post('authentication', [AuthController::class, 'authentication'])->middleware('checkBanned');
 
-Route::post('authentication', [AuthController::class, 'authentication']);
-
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum', 'checkBanned')->group(function () {
     Route::resource('offers', OfferController::class);
     Route::post('offers/{offer}/subscribe', [OfferController::class, 'subscribe']);
     Route::post('offers/{offer}/unsubscribe', [OfferController::class, 'unsubscribe']);

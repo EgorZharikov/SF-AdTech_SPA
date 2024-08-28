@@ -17,9 +17,9 @@ class AuthController extends BaseController
 
         $user = User::find(Auth::id());
         if ($user) {
-            return response()->json($user, 200);
+            return response()->json(['data' => $user, 'message' => 'Authentication success!'], 200);
         } else {
-            return response()->json(null, 200);
+            return response()->json(['data' => '', 'message' => 'Authentication fail.'], 200);
         }
     }
 }

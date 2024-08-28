@@ -16,10 +16,9 @@ class CheckBanned
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->banned_at) {
-            $message = 'Your account has been banned, please contact the administrator';
-            auth()->logout();
-            return redirect()->route('login')->withMessage($message);
+        if (Auth::check() && Auth::user()->banned_at) {
+            Auth::guard('web')->logout();
+            return response()->json(['errors' => ['Your account has been banned, please contact the administrator!']], 401);
         }
         return $next($request);
     }

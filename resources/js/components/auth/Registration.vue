@@ -54,9 +54,8 @@ export default {
                 })
                     .then(res => {
                         console.log(res)
-                        if (res.data.hasOwnProperty("name")) {
-                            sessionStorage.setItem('user', JSON.stringify(res.data))
-                            this.$store.dispatch('getUserData')
+                        if (res.data.data.hasOwnProperty("name")) {
+                            this.$store.commit('setUser', res.data.data)
                             this.$router.push({ name: 'index' })
                         }
                         

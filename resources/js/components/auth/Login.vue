@@ -20,13 +20,15 @@
                             class="btn btn-primary">Login</button>
                     </div>
                     <div class="mt-1 form-checks">
-                        <input type="checkbox" class="form-check-input me-2" id="exampleCheck1" name="save_user">
-                        <label class="form-check-label" for="exampleCheck1">Сохранить вход</label>
+                        <input v-model="remember" type="checkbox" class="form-check-input me-2" name="remember" id="remember">
+                        <label class="form-check-label" for="exampleCheck1">Remember Me</label>
                     </div>
 
-                    <div class="account-logo mt-3 text-center"><router-link to="/registration">Создать
-                            аккаунт</router-link></div>
-                    <div v-if="error" class="alert alert-danger mt-3" role="alert">{{ this.error }}</div>
+                    <div class="account-logo mt-3 text-center"><router-link to="/registration">Create
+                            account</router-link></div>
+                    <div v-if="errors" class="alert alert-danger mt-3" role="alert">
+                        <p v-for="error in errors">{{ error.toString() }}</p>
+                    </div>
                 </form>
             </div>
         </div>
@@ -40,31 +42,35 @@ export default {
         return {
             email: null,
             password: null,
-            error: null,
+            errors: null,
+            remember: null,
         }
     },
     methods: {
         login() {
+            let remember = this.remember ? 1:0
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/login', { email: this.email, password: this.password })
+                axios.post('/login', { email: this.email, password: this.password, remember: this.remember })
                     .then(res => {
-                        if (res.data.hasOwnProperty("name")) {
-                            sessionStorage.setItem('user', JSON.stringify(res.data))
-                            this.$store.dispatch('getUserData')
+                        console.log(res)
+                        if (res.data.data.hasOwnProperty("name")) {
+                            this.$store.commit('setUser', res.data.data)
                             this.$router.push({ name: 'index' })
                         }
                     }).catch(err => {
-                    this.error = 'Invalid password or login'
+                        console.log(err)
+                    this.errors = err.response.data.errors
                 })
             })
-        }
-    }, computed: {
+        },
+    },
+    computed: {
         user() {
             return this.$store.getters.user
         }
     },
-    mounted() {
-        this.$store.dispatch('getUserData')
+    created() {
+        this.$store.commit('setUser', null)
     }
 }
 </script>
