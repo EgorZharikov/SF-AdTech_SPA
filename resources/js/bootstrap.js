@@ -18,6 +18,9 @@ axios.interceptors.response.use({}, err => {
         router.push({ name: 'login'})
         
     }
+    if (err.response.status === 404) {
+        router.push({ name: 'error.404' })
+    }
     return Promise.reject(err);
 })
 /**

@@ -12,10 +12,10 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <router-link class="nav-link" :to="{name: 'index'}">Home</router-link>
+                        <router-link class="nav-link" :to="{name: 'home'}">Home</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" :to="{ name: 'offer.index' }">Offers</router-link>
+                        <router-link v-if="user" class="nav-link" :to="{ name: 'offer.index' }">Offers</router-link>
                     </li>
                     <li v-if="user" class="nav-item">
                         <router-link v-if="Number(user.role_id) === 1" class="nav-link"
@@ -110,7 +110,15 @@
         </div>
     </nav>
 </template>
-
+<style scoped>
+nav a:hover,
+nav a.router-link-exact-active {
+    color: green;
+}
+nav a.router-link-active {
+    color: green;
+}
+</style>
 <script>
 export default {
     name: "Navbar",

@@ -1,4 +1,5 @@
 <template>
+    <main>
     <body>
         <section class="error-404-section section-padding">
             <div class="error">
@@ -7,10 +8,11 @@
             <div class="error-message">
                 <h3>Ой! Страница не найдена!</h3>
                 <p>К сожалению мы не можем найти запрошенную вами страницу. Возможно, вы неправильно ввели адрес.</p>
-                <a href="javascript:history.go(-1)" class="theme-btn">Вернуться назад</a>
+                <a href="javascript:history.go(-2)" class="theme-btn">Вернуться назад</a>
             </div>
         </section>
     </body>
+    </main>
 </template>
 <style scoped>
   @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap");

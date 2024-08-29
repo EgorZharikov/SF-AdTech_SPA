@@ -54,7 +54,12 @@ router.beforeEach(async (to, from, next) => {
         return router.push({ name: 'home' })
     } else if (to.path == '/registration' && roleId) {
         return router.push({ name: 'home' })
+    } else if (to.path.match(/webmaster/) && roleId !== 2) {
+        return router.push({ name: 'error.404' })
+    } else if (to.name == 'offer.create' && roleId !== 1) {
+        return router.push({ name: 'error.404' })
     } else next()
+    
 })
 
 export default router
