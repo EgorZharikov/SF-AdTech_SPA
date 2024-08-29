@@ -118,12 +118,10 @@ export default {
         logout() {
             axios.post('/logout')
                 .then(res => {
-                    sessionStorage.clear()
-                    this.$store.dispatch('getUserData')
+                    this.$store.commit('setUser', null)
                     this.$router.push({ name: 'index' })
                 }).catch(err => {
-                    sessionStorage.clear()
-                    this.$store.dispatch('getUserData')
+                    this.$store.commit('setUser', null)
                     this.$router.push({ name: 'index' })
                 })
         },
@@ -173,10 +171,6 @@ export default {
         user() {
             return this.$store.getters.user
         },
-    },
-    mounted() {
-        this.$store.dispatch('getUserData')
     }
-
 }
 </script>

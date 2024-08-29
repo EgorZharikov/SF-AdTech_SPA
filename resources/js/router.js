@@ -1,9 +1,10 @@
 import { createWebHistory, createRouter } from 'vue-router';
-
+import store from "./store"
 
 
 
 import index from './components/Index.vue';
+import { useSSRContext } from 'vue';
 
 
 const routes = [
@@ -27,6 +28,7 @@ const routes = [
     { path: '/administrator/wallet', component: function () { return import('./components/administrator/Wallet.vue') }, name: 'administrator.wallet' },
     { path: '/administrator/users', component: function () { return import('./components/administrator/Users.vue') }, name: 'administrator.users' },
     { path: '/administrator/statistics', component: function () { return import('./components/administrator/Statistics.vue') }, name: 'administrator.statistics' },
+    { path: '/:pathMatch(.*)*', component: function () { return import('./components/error/404.vue') }, name: 'error.404' },
 
 
 ]
@@ -34,6 +36,25 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+
+router.beforeEach(async (to, from, next) => {
+    const user = store.getters.user;
+    if (!user) {
+        await store.dispatch('getUserData');
+    }
+
+    const roleId = store.getters.user ? store.getters.user.role_id : 0;
+    console.log(roleId)
+    if (to.path.match(/administrator/) && roleId !== 3) {
+        return router.push({ name: 'error.404' })
+    } else if (to.path.match(/advertiser/) && roleId !== 1) {
+        return router.push({ name: 'error.404' })
+    } else if (to.path == '/login' && roleId) {
+        return router.push({ name: 'home' })
+    } else if (to.path == '/registration' && roleId) {
+        return router.push({ name: 'home' })
+    } else next()
 })
 
 export default router

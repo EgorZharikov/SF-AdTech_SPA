@@ -12,6 +12,16 @@ export default {
   name: "Index",
   components: {
     Navbar
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user
+    }
+  },
+    mounted() {
+    this.$nextTick(function () {
+      this.$store.dispatch('getUserData')
+    })
   }
 }
 </script>
