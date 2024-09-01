@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -35,7 +36,8 @@ class LoginController extends Controller
             Auth::guard('web')->logout();
             return response()->json(['errors' => ['Your account has been banned, please contact the administrator!']], 401);
         }
-        return response()->json(['data' => $user, 'message' => 'Authenticated success!'], 200);
+        $userData = User::where('id', Auth::id())->with('wallet')->first();
+        return response()->json(['data' => $userData, 'message' => 'Authenticated success!'], 200);
     }
 
     /**

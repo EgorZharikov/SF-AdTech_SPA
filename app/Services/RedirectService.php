@@ -89,7 +89,7 @@ class RedirectService
                 'subscription_id' => $data['subscription_id'],
                 'ip' => $data['ip'],
                 'status' => $status,
-                'fee_id' => $this->webmaster->user->fee_id,
+                'fee' => $this->webmaster->user->fee->percent,
                 'offer_award' => $offerAward
             ]);
 

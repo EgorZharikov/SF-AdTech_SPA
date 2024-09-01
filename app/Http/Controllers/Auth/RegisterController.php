@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -42,9 +43,10 @@ class RegisterController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function registered(Request $request, $user)
+    protected function registered(Request $request, User $user)
     {
-        return response()->json(['data' => $user, 'message' => 'registration success!'], 200);
+        $userData = User::where('id', Auth::id())->with('wallet')->first();
+        return response()->json(['data' => $userData, 'message' => 'registration success!'], 200);
     }
 
     /**

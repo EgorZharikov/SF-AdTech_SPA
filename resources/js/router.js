@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
         await store.dispatch('getUserData');
     }
 
-    const roleId = store.getters.user ? store.getters.user.role_id : 0;
+    const roleId = store.getters.user ? Number(store.getters.user.role_id) : 0;
     console.log(roleId)
     if (to.path.match(/administrator/) && roleId !== 3) {
         return router.push({ name: 'error.404' })

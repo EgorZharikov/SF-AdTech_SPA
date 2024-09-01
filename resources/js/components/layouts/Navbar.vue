@@ -131,6 +131,7 @@ export default {
                     this.$router.push({ name: 'index' })
                 }).catch(err => {
                     this.$store.commit('setUser', null)
+                    this.$store.commit('setBalance', null)
                     this.$router.push({ name: 'index' })
                 })
         },

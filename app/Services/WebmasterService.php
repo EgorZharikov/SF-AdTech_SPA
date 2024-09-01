@@ -35,7 +35,7 @@ class WebmasterService
         foreach ($subscriptions as $subscription) {
 
             foreach ($subscription->redirects as $redirect) {
-                $fee = Fee::where('id', $redirect->fee_id)->first()->percent;
+                $fee = $redirect->fee;
                 $subscription->fee = round($redirect->offer_award * ($fee / 100) * $subscription->redirects_count, 2);
                 $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
                 $subscription->user_fee = $fee;
@@ -61,7 +61,7 @@ class WebmasterService
         foreach ($subscriptions as $subscription) {
 
             foreach ($subscription->redirects as $redirect) {
-                $fee = Fee::where('id', $redirect->fee_id)->first()->percent;
+                $fee = $redirect->fee;
                 $subscription->fee = round($redirect->offer_award * ($fee / 100) * $subscription->redirects_count, 2);
                 $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
                 $subscription->user_fee = $fee;
@@ -86,7 +86,7 @@ class WebmasterService
         foreach ($subscriptions as $subscription) {
 
             foreach ($subscription->redirects as $redirect) {
-                $fee = Fee::where('id', $redirect->fee_id)->first()->percent;
+                $fee = $redirect->fee;
                 $subscription->fee = round($redirect->offer_award * ($fee / 100) * $subscription->redirects_count, 2);
                 $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
                 $subscription->user_fee = $fee;
@@ -109,7 +109,7 @@ class WebmasterService
         foreach ($subscriptions as $subscription) {
 
             foreach ($subscription->redirects as $redirect) {
-                $fee = Fee::where('id', $redirect->fee_id)->first()->percent;
+                $fee = $redirect->fee;
                 $subscription->fee = round($redirect->offer_award * ($fee / 100) * $subscription->redirects_count,2);
                 $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
                 $subscription->user_fee = $fee;

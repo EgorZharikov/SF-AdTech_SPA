@@ -58,8 +58,9 @@ export default {
       });
     },
     notificationsSubscribe() {
-      console.log('user_notification_' + this.$store.getters.user.id)
+      console.log(this.$store.getters.balance)
       if (this.$store.getters.user) {
+        this.notificationsUnsubscribe();
         window.Echo.private(`notification_${this.$store.getters.user.id}`)
           .listen('.notification', (e) => {
             this.triggerToast(e.status, e.message)

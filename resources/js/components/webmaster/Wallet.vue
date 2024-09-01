@@ -7,7 +7,7 @@
                     <div class="card d-flex justify-content-center bg-dark" style="width: 20rem;">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item text-bg-success">
-                                <h4>Balance: {{ this.balance }} ₽</h4>
+                                <h4>Balance: {{ balance }} ₽</h4>
                             </li>
                         </ul>
                         <form>
@@ -46,12 +46,17 @@ export default {
             errors: null,
         }
     },
+    computed: {
+        balance() {
+            return this.$store.getters.balance
+        }
+    },
     methods: {
         getWallet() {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get(`/api/wallet`)
                     .then(res => {
-                        this.balance = res.data.data.balance
+                        this.$store.commit('setBalance', res.data.data.balance)
 
                     }).catch(err => {
                        this.errors = err.response.data.errors

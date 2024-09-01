@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Events\NotificationEvent;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use App\Models\Offer;
 use App\Models\Topic;
+use App\Models\Wallet;
+use Illuminate\Support\Str;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use App\Events\NotificationEvent;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -43,12 +44,17 @@ class OfferController extends BaseController
         $data = request()->validate([
             'title' => 'required',
             'url' => 'required|url',
-            'award' => 'required|numeric',
+            'award' => 'required|numeric|min:0.1',
             'content' => 'required',
             'topic' => 'required',
             'preview_image' => 'required|image|max:5120',
             'unique_ip' => 'numeric',
         ]);
+
+        $wallet = Wallet::where('user_id', Auth::id())->first();
+        if ($wallet->balance < $data['award']) {
+            return response()->json(['errors' => ['balance' => ['Insufficient funds!']]], 422);
+        }
 
         try {
 
@@ -112,12 +118,15 @@ class OfferController extends BaseController
         $data = request()->validate([
             'title' => 'required',
             'url' => 'required|url',
-            'award' => 'required|numeric',
             'content' => 'required',
             'topic' => 'required',
             'preview_image' => 'required|image|max:5120',
             'unique_ip' => 'numeric',
         ]);
+            $wallet = Wallet::where('user_id', Auth::id())->first();
+            if($wallet->balance < $offer->award) {
+            return response()->json(['errors' => ['balance' => ['Insufficient funds!']]], 422);
+            }
 
         try {
             DB::beginTransaction();
@@ -134,7 +143,6 @@ class OfferController extends BaseController
             $offer->update([
                 'title' => $data['title'],
                 'url' => $data['url'],
-                'award' => $data['award'],
                 'content' => $data['content'],
                 'preview_image' => $data['preview_image'],
                 'topic_id' => $topic->id,

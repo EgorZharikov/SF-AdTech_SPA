@@ -1,15 +1,21 @@
 const state = {
     user: null,
-    notification: '',
+    balance: null,
 }
 const getters = {
     user: state => {
         return state.user
+    },
+    balance: state => {
+        return state.balance
     }
 }
 const mutations = {
     setUser(state, user) {
         state.user = user
+    },
+    setBalance(state, balance) {
+        state.balance = balance
     }
 }
 // const actions = {
@@ -35,6 +41,9 @@ const actions = {
                 const res = await axios.get('/sanctum/csrf-cookie');
                 const auth = await axios.post('/api/authentication')
                 commit('setUser', auth.data.data)
+                if (auth.data.data) {
+                    commit('setBalance', auth.data.data.wallet.balance)
+                }
             } catch (error) {
                 console.error(error)
             }

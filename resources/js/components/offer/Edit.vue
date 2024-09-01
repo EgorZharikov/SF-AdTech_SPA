@@ -16,14 +16,19 @@
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total (₽)</span>
-                                <strong> 0 </strong>
+                                <strong> {{ balance }} </strong>
                             </li>
                         </ul>
-                        <!-- @if($errors->has('walletError')) -->
-                        <div class="alert alert-danger" role="alert">
-                            Insufficient funds! <a href="">Please spread the word to help raise the balance.</a>
+                        <div v-if="errors">
+                            <div v-for="error in errors.balance" class="alert alert-danger" role="alert">
+                                <span>
+                                    {{ error }}
+                                    <router-link :to="{ name: 'advertiser.wallet' }">Please spread the word to help
+                                        raise
+                                        the balance.</router-link>
+                                </span>
+                            </div>
                         </div>
-                        <!-- @endif -->
                     </div>
                     <div class="col-md-7 col-lg-8">
                         <form class="needs-validation" action="" enctype="multipart/form-data" method="post">
@@ -76,7 +81,8 @@
                                     <div class="input-group mt-2">
                                         <span class="input-group-text">₽</span>
                                         <input v-model="award" type="number" class="form-control" value=""
-                                            aria-label="Amount" name="award" step=".1" pattern="\d*">
+                                            aria-label="Amount" name="award" step=".1" min="0.1" pattern="\d*" disabled
+                                            readonly>
                                     </div>
                                     <div v-if="errors" class="form-text text-danger">
                                         <p v-for="error in errors.award">{{ error }}</p>
@@ -159,7 +165,7 @@ export default {
                         } else {
                             this.$router.push({ name: 'error.404' })
                         }
-                        
+
                     }).catch(err => {
                         console.log(err)
                         this.errors = err
@@ -176,11 +182,14 @@ export default {
             return this.$store.getters.user
         },
         offer() {
-           return this.offer
+            return this.offer
+        },
+        balance() {
+            return this.$store.getters.balance
         }
     },
     mounted() {
-        this.getOffer() 
+        this.getOffer()
     }
 }
 </script>

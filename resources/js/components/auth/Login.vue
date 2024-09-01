@@ -58,6 +58,7 @@ export default {
                         console.log(res)
                         if (res.data.data.hasOwnProperty("name")) {
                             this.$store.commit('setUser', res.data.data)
+                            this.$store.commit('setBalance', res.data.data.wallet.balance)
                             this.$router.push({ name: 'index' })
                         }
                     }).catch(err => {
