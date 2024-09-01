@@ -61,6 +61,7 @@ export default {
                         console.log(res)
                         if (res.data.data.hasOwnProperty("name")) {
                             this.$store.commit('setUser', res.data.data)
+                            this.$root.notificationsSubscribe()
                             this.$router.push({ name: 'index' })
                         }
                         

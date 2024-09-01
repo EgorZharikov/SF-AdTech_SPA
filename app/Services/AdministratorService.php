@@ -56,7 +56,7 @@ class AdministratorService
             $this->dateIncome += round($transaction->value, 2);
         }
 
-        $this->dateStatistics[] = ['offersCreated' => $offers, 'offersPublicated' => $offersPublicated, 'refLinkCount' => $refLinkCount, 'refLinkTotal' => $refLinkTotal, 'redirectsSuccess' => $redirectsSuccess, 'redirectsFail' => $redirectsFail, 'dateIncome' => $this->dateIncome];
+        $this->dateStatistics[] = ['offersCreated' => $offers, 'offersPublicated' => $offersPublicated, 'refLinkCount' => $refLinkCount, 'refLinkTotal' => $refLinkTotal, 'redirectsSuccess' => $redirectsSuccess, 'redirectsFail' => $redirectsFail, 'dateIncome' => round($this->dateIncome,2)];
         return $this->dateStatistics;
     }
 
@@ -77,7 +77,7 @@ class AdministratorService
             $this->dateIncome += round($transaction->value, 2);
         }
 
-        $this->dateStatistics[] = ['offersCreated' => $offers, 'offersPublicated' => $offersPublicated, 'refLinkCount' => $refLinkCount, 'refLinkTotal' => $refLinkTotal, 'redirectsSuccess' => $redirectsSuccess, 'redirectsFail' => $redirectsFail, 'dateIncome' => $this->dateIncome];
+        $this->dateStatistics[] = ['offersCreated' => $offers, 'offersPublicated' => $offersPublicated, 'refLinkCount' => $refLinkCount, 'refLinkTotal' => $refLinkTotal, 'redirectsSuccess' => $redirectsSuccess, 'redirectsFail' => $redirectsFail, 'dateIncome' => round($this->dateIncome, 2)];
         return $this->dateStatistics;
     }
 
@@ -98,7 +98,7 @@ class AdministratorService
             $this->dateIncome += round($transaction->value, 2);
         }
 
-        $this->dateStatistics[] = ['offersCreated' => $offers, 'offersPublicated' => $offersPublicated, 'refLinkCount' => $refLinkCount, 'refLinkTotal' => $refLinkTotal, 'redirectsSuccess' => $redirectsSuccess, 'redirectsFail' => $redirectsFail, 'dateIncome' => $this->dateIncome];
+        $this->dateStatistics[] = ['offersCreated' => $offers, 'offersPublicated' => $offersPublicated, 'refLinkCount' => $refLinkCount, 'refLinkTotal' => $refLinkTotal, 'redirectsSuccess' => $redirectsSuccess, 'redirectsFail' => $redirectsFail, 'dateIncome' => round($this->dateIncome, 2)];
         return $this->dateStatistics;
     }
 }

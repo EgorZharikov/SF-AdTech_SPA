@@ -1,6 +1,5 @@
 <template>
   <Navbar/>
-
   <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">
       <Component :is="Component"/>
@@ -34,8 +33,42 @@ export default {
       return this.$store.getters.user
     }
   },
-    created() {
-      this.$store.dispatch('getUserData')
+  watch: {
+    user: {
+      handler(newUser) {
+        if (newUser) {
+          this.notificationsSubscribe()
+        }
+      },
+      // force eager callback execution
+      immediate: true
+    }
+  },
+  methods: {
+    triggerToast(icon, text) {
+      this.$swal({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        icon: icon,
+        title: 'Notification',
+        text: text,
+        showCancelButton: 'true'
+      });
+    },
+    notificationsSubscribe() {
+      console.log('user_notification_' + this.$store.getters.user.id)
+      if (this.$store.getters.user) {
+        window.Echo.private(`notification_${this.$store.getters.user.id}`)
+          .listen('.notification', (e) => {
+            this.triggerToast(e.status, e.message)
+          })
+      }
+    },
+    notificationsUnsubscribe() {
+      window.Echo.leave(`notification_${this.$store.getters.user.id}`)
+    }
   }
 }
 </script>

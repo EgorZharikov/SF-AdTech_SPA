@@ -1,8 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import store from "./store"
-
-
-
 import index from './components/Index.vue';
 import { useSSRContext } from 'vue';
 

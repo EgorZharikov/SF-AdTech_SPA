@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\NotificationEvent;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\Offer;
@@ -173,11 +174,15 @@ class OfferController extends BaseController
                 'offer_id' => $offer->id,
                 'referal_link' => Str::random(24),
             ]);
+            $message = 'User '. Auth::user()->name . ' subscribe to you offer id:' . $offer->id;
+            event(new NotificationEvent($message, $offer->user_id, 'success'));
             return response()->json(['message' => 'Subcribe successfully.'], 200);
         }
         if (!$subscription->status) {
             $subscription->status = 1;
             $subscription->save();
+            $message = 'User ' . Auth::user()->name . ' subscribe to you offer id:' . $offer->id;
+            event(new NotificationEvent($message, $offer->user_id, 'success'));
             return response()->json(['message' => 'Subcribe successfully.'], 200);
         }
 
@@ -194,6 +199,8 @@ class OfferController extends BaseController
         } else {
             return response()->json(['message' => 'You not subscribed.'], 422);
         }
+        $message = 'User ' . Auth::user()->name . ' unsubscribe to you offer id:' . $offer->id;
+        event(new NotificationEvent($message, $offer->user_id, 'info'));
         return response()->json(['message' => 'Unsubscribe success.'], 200);
     }
 

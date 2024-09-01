@@ -1,10 +1,10 @@
 import './bootstrap';
-import { createApp } from 'vue';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import store from "./store"
 import router from "./router";
-import VueCookies from "vue-cookies";
-
+import { createApp } from 'vue';
 import index from './components/Index.vue';
 
 
-createApp(index).use(VueCookies).use(store).use(router).mount('#app');
+createApp(index).use(VueSweetalert2).use(store).use(router).mount('#app');

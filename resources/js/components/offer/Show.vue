@@ -79,7 +79,7 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post(`/api/offers/${this.$route.params.id}/subscribe`)
                     .then(res => {
-                        console.log(res)
+                        this.$root.triggerToast('success', 'Subscribed success!');
                         this.subscription()
                     }).catch(err => {
                         console.log(err)

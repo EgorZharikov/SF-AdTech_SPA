@@ -10,6 +10,7 @@ use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Services\WebmasterService;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\SubscriptionResource;
 use App\Http\Controllers\API\BaseController as BaseController;
 
 class WebmasterController extends BaseController
@@ -54,6 +55,11 @@ class WebmasterController extends BaseController
         $webmasterService = (new WebmasterService);
         $user = $webmasterService->profile();
         return response()->json($user, 200);
+    }
+    public function subscriptions()
+    {
+        $subscriptions = Subscription::where('user_id', Auth::id())->where('status', 1)->get();
+        return $this->sendResponse(SubscriptionResource::collection($subscriptions), 'Subscription retrieved successfully.');
     }
 
 }

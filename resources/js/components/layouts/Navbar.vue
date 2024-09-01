@@ -126,6 +126,7 @@ export default {
         logout() {
             axios.post('/logout')
                 .then(res => {
+                    this.$root.notificationsUnsubscribe()
                     this.$store.commit('setUser', null)
                     this.$router.push({ name: 'index' })
                 }).catch(err => {

@@ -1,5 +1,6 @@
 const state = {
-    user: null
+    user: null,
+    notification: '',
 }
 const getters = {
     user: state => {
