@@ -148,6 +148,7 @@ export default {
                         this.password = null
                         this.errors = null
                         this.getUsers()
+                        this.$root.triggerToast('success', 'User added successfully!')
 
 
                     }).catch(err => {

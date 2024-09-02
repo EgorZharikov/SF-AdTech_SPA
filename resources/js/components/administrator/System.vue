@@ -2,24 +2,23 @@
     <main>
         <div class="container text-center">
             <div class="row align-items-center justify-content-center">
-                <h1 class="m-5">Wallet</h1>
+                <h1 class="m-5">System</h1>
                 <div class="col col-md-3 offset-md-3 m-3">
                     <div class="card d-flex justify-content-center bg-dark" style="width: 20rem;">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item text-bg-success">
-                                <h4>Balance: {{ balance }} ₽</h4>
+                                <h4>System fee: {{ fee }} %</h4>
                             </li>
                         </ul>
                         <form>
                             <div class="card-body d-flex justify-content-center" style="width: 20rem;">
                                 <input v-model="amount" type="number" class="form-control px-5" aria-label="Amount"
-                                    name="amount" step="1" pattern="\d*">
+                                    name="amount" step="0.1" min="0" pattern="\d*">
                             </div>
-                            <div class="card-body d-flex justify-content-center">
-                                <button @click.prevent="replanish" name="replenish"
-                                    class="btn btn-outline-success px-4 me-4">Replenish</button>
-                                <button @click.prevent="withdraw" name="withdraw"
-                                    class="btn btn-outline-success px-4 me-4">Withdraw</button>
+                            <div class="card-body d-flex justify-content-center p-1">
+                                <button @click.prevent="setSystemFee" name="apply"
+                                    class="btn btn-outline-success">
+                                    Aply</button>
                             </div>
                         </form>
                     </div>
@@ -41,47 +40,30 @@
 export default {
     data() {
         return {
-            balance: null,
+            fee: null,
             amount: null,
             errors: null,
         }
     },
-    computed: {
-        balance() {
-            return this.$store.getters.balance
-        }
-    },
     methods: {
-        getWallet() {
+        getSystemFee() {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.get(`/api/wallet`)
+                axios.get(`/api/administrator/system`)
                     .then(res => {
-                        this.$store.commit('setBalance', res.data.data.balance)
+                        this.fee = res.data.percent
+
 
                     }).catch(err => {
-                       this.errors = err.response.data.errors
+                        this.errors = err.response.data.errors
                     })
             })
         },
-        replanish() {
-                axios.get('/sanctum/csrf-cookie').then(response => {
-                    axios.patch(`/api/wallet`, { amount: this.amount, replenish: true })
-                        .then(res => {
-                            this.getWallet()
-                            this.$root.triggerToast('success', 'Wallet replenishment successful!')
-
-                        }).catch(err => {
-                            this.errors = err.response.data.errors
-                        })
-                })
-        },
-        withdraw() {
+        setSystemFee() {
             axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.patch(`/api/wallet`, { amount: this.amount, withdraw: true })
+                axios.post(`/api/administrator/system`, { amount: this.amount })
                     .then(res => {
-                        this.getWallet()
-                        this.$root.triggerToast('success', 'Debiting from wallet successfully!')
-
+                        this.fee = res.data.percent
+                        this.$root.triggerToast('success', 'System fee updated success!')
                     }).catch(err => {
                         this.errors = err.response.data.errors
                     })
@@ -89,7 +71,7 @@ export default {
         }
     },
     created() {
-        this.getWallet()
+        this.getSystemFee()
     }
 }
 </script>

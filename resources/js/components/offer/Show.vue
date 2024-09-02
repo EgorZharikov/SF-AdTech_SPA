@@ -90,7 +90,7 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post(`/api/offers/${this.$route.params.id}/unsubscribe`)
                     .then(res => {
-                        console.log(res)
+                        this.$root.triggerToast('info', 'You unsubscribed of the offer.')
                         this.subscription()
                     }).catch(err => {
                         console.log(err)
@@ -114,6 +114,7 @@ export default {
                 axios.get(`/api/offers/${this.$route.params.id}/publish`)
                     .then(res => {
                         this.offer = res.data.data
+                        this.$root.triggerToast('success', 'Offer successfully published.')
 
                     }).catch(err => {
                         console.log(err)
@@ -125,7 +126,7 @@ export default {
                 axios.get(`/api/offers/${this.$route.params.id}/unpublish`)
                     .then(res => {
                         this.offer = res.data.data
-
+                        this.$root.triggerToast('info', 'Offer has been withdrawn from publication.')
                     }).catch(err => {
                         console.log(err)
                     })

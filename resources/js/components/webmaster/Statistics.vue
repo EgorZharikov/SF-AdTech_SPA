@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Referal code</th>
+                            <th scope="col">Offer award</th>
                             <th scope="col">Redirects</th>
                             <th scope="col">Service fee</th>
                             <th scope="col">Award</th>
@@ -28,6 +29,7 @@
                         <!-- @foreach ($dateStatistics as $dateStatistic) -->
                         <tr v-for="totalStat in totalStats">
                             <th scope="row">{{ totalStat.referal_link }}</th>
+                            <td>{{ totalStat.offer_award }}</td>
                             <td>{{ totalStat.redirects_count }}</td>
                             <td>{{ totalStat.fee }}</td>
                             <th scope="row"> {{ totalStat.award }}
@@ -35,6 +37,7 @@
                         </tr>
                         <!-- @endforeach -->
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -65,6 +68,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Referal code</th>
+                            <th scope="col">Offer award</th>
                             <th scope="col">Redirects</th>
                             <th scope="col">Service fee</th>
                             <th scope="col">Award</th>
@@ -75,12 +79,14 @@
                         <tr v-for="dateStat in dateStats">
                             <th scope="row">{{ dateStat.referal_link }}</th>
                             <td>{{ dateStat.redirects_count }}</td>
+                            <td>{{ dateStat.offer_award }}</td>
                             <td>{{ dateStat.fee }}</td>
                             <th scope="row">{{ dateStat.award }}
                             </th>
                         </tr>
                         <!-- @endforeach -->
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

@@ -25,6 +25,7 @@ const routes = [
     { path: '/administrator/wallet', component: function () { return import('./components/administrator/Wallet.vue') }, name: 'administrator.wallet' },
     { path: '/administrator/users', component: function () { return import('./components/administrator/Users.vue') }, name: 'administrator.users' },
     { path: '/administrator/statistics', component: function () { return import('./components/administrator/Statistics.vue') }, name: 'administrator.statistics' },
+    { path: '/administrator/system', component: function () { return import('./components/administrator/System.vue') }, name: 'administrator.system' },
     { path: '/:pathMatch(.*)*', component: function () { return import('./components/error/404.vue') }, name: 'error.404' },
 
 

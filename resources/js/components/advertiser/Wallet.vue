@@ -24,7 +24,6 @@
                         </form>
                     </div>
                 </div>
-                <!-- @if($errors->has('walletError')) -->
                 <div v-if="errors" class="row justify-content-center">
                     <div class="col col-md-3 offset-md-3 m-3 text-center">
                         <div class="alert alert-warning text-center" role="alert">
@@ -32,7 +31,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- @endif -->
             </div>
         </div>
     </main>
@@ -69,6 +67,7 @@ export default {
                 axios.patch(`/api/wallet`, { amount: this.amount, replenish: true })
                     .then(res => {
                         this.getWallet()
+                        this.$root.triggerToast('success', 'Wallet replenishment successful!')
 
                     }).catch(err => {
                         this.errors = err.response.data.errors
@@ -80,6 +79,7 @@ export default {
                 axios.patch(`/api/wallet`, { amount: this.amount, withdraw: true })
                     .then(res => {
                         this.getWallet()
+                        this.$root.triggerToast('success', 'Debiting from wallet successfully!')
 
                     }).catch(err => {
                         this.errors = err.response.data.errors

@@ -135,6 +135,7 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/offers', data)
                     .then(res => {
+                        this.$root.triggerToast('success', 'Offer created successfully!')
                         this.$router.push({ name: 'offer.index' })
                     }).catch(err => {
                         this.errors = err.response.data.errors

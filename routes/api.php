@@ -50,8 +50,12 @@ Route::middleware('auth:sanctum', 'checkBanned')->group(function () {
     });
 
     Route::middleware('isAdministrator')->group(function () {
+        Route::get('administrator/system', [AdministratorController::class, 'systemFee']);
+        Route::post('administrator/system', [AdministratorController::class, 'updateSystemFee']);
         Route::get('administrator/statistics', [AdministratorController::class, 'statistics']);
         Route::post('administrator/statistics', [AdministratorController::class, 'statistics']);
+        Route::get('administrator/wallet', [AdministratorController::class, 'systemWallet']);
+        Route::get('administrator/profile', [AdministratorController::class, 'profile']);
         Route::get('users', [UserController::class, 'index']);
         Route::post('users', [UserController::class, 'store']);
         Route::patch('users/{user}/ban', [UserController::class, 'ban']);
