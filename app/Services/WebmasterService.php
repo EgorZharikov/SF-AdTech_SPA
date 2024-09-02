@@ -40,7 +40,7 @@ class WebmasterService
                 $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
                 $subscription->user_fee = $fee;
                 $subscription->offer_award = $redirect->offer_award;
-                $this->dateAward += round($redirect->offer_award - ($redirect->offer_award * ($fee / 100)), 2);
+                $this->dateAward += $redirect->offer_award - ($redirect->offer_award * ($fee / 100));
             }
             $this->dateStatistics[] = $subscription;
         }
@@ -67,7 +67,7 @@ class WebmasterService
                 $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
                 $subscription->user_fee = $fee;
                 $subscription->offer_award = $redirect->offer_award;
-                $this->dateAward += round($redirect->offer_award - ($redirect->offer_award * ($fee / 100)), 2);
+                $this->dateAward += $redirect->offer_award - ($redirect->offer_award * ($fee / 100));
             }
             $this->dateStatistics[] = $subscription;
         }
@@ -93,7 +93,7 @@ class WebmasterService
                 $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
                 $subscription->user_fee = $fee;
                 $subscription->offer_award = $redirect->offer_award;
-                $this->dateAward += round($redirect->offer_award - ($redirect->offer_award * ($fee / 100)), 2);
+                $this->dateAward += $redirect->offer_award - ($redirect->offer_award * ($fee / 100));
             }
             $this->dateStatistics[] = $subscription;
         }
@@ -117,7 +117,7 @@ class WebmasterService
                 $subscription->award = round(($redirect->offer_award * $subscription->redirects_count) - $subscription->fee, 2);
                 $subscription->user_fee = $fee;
                 $subscription->offer_award = $redirect->offer_award;
-                $this->totalAward += round($redirect->offer_award - ($redirect->offer_award * ($fee / 100)), 2);
+                $this->totalAward += $redirect->offer_award - ($redirect->offer_award * ($fee / 100));
             }
             
             $this->statistics[] = $subscription;
