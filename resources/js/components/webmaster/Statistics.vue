@@ -22,7 +22,7 @@
                             <th scope="col">Offer award</th>
                             <th scope="col">Redirects</th>
                             <th scope="col">Service fee</th>
-                            <th scope="col">Award</th>
+                            <th scope="col">Award ₽</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,8 +78,8 @@
                         <!-- @foreach ($dateStatistics as $dateStatistic) -->
                         <tr v-for="dateStat in dateStats">
                             <th scope="row">{{ dateStat.referal_link }}</th>
-                            <td>{{ dateStat.redirects_count }}</td>
                             <td>{{ dateStat.offer_award }}</td>
+                            <td>{{ dateStat.redirects_count }}</td>
                             <td>{{ dateStat.fee }}</td>
                             <th scope="row">{{ dateStat.award }}
                             </th>

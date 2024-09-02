@@ -17,7 +17,7 @@ class IsAuthor
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role_id === 1 && $request->offer->id === Auth::id()) {
+        if (Auth::check() && Auth::user()->role_id === 1 && $request->offer->user_id === Auth::id()) {
             return $next($request);
         }
         return response()->json(['errors' => ['You do not have permission!']], 403);

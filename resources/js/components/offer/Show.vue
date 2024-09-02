@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div class="container my-5">
+        <div v-if="user" class="container my-5">
             <div v-if="offer" class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
                 <router-link :to="{ name: 'offer.index' }"><img src="/img/go_back_arrow.png" alt="go_back"
                         style="width: 25px; height: 25px;"></router-link>
@@ -23,17 +23,20 @@
 
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                        <button v-if="isWebmaster && !subscribed" @click.prevent="subscribe"
+                        <button v-if="Number(user.role_id) === 2 && !subscribed" @click.prevent="subscribe"
                             class="btn btn-success btn-lg px-4 me-md-2 fw-bold">Subscribe</button>
 
-                        <button v-if="isWebmaster && subscribed" @click.prevent="unsubscribe"
+                        <button v-if="Number(user.role_id) === 2 && subscribed" @click.prevent="unsubscribe"
                             class="btn btn btn-dark btn-lg px-4">Unsubscribe</button>
 
-                        <router-link v-if="isAuthor" :to="{ name: 'offer.edit', params: { id: offer.id } }"
+                        <router-link v-if="Number(user.id) === Number(offer.user_id)"
+                            :to="{ name: 'offer.edit', params: { id: offer.id } }"
                             class="btn btn-primary btn-lg px-4 me-3">Edit</router-link>
-                        <button v-if="isAuthor && Number(offer.status) === 1" @click.prevent="unpublish" type="submit"
+                        <button v-if="Number(user.id) === Number(offer.user_id) && Number(offer.status) === 1"
+                            @click.prevent="unpublish" type="submit"
                             class="btn btn btn-dark btn-lg px-4 me-3">Unpublish</button>
-                        <button v-if="isAuthor && Number(offer.status) !== 1" @click.prevent="publish" type="submit"
+                        <button v-if="Number(user.id) === Number(offer.user_id) && Number(offer.status) !== 1"
+                            @click.prevent="publish" type="submit"
                             class="btn btn btn-success btn-lg px-4">Publish</button>
                     </div>
                 </div>
@@ -53,12 +56,6 @@ export default {
         }
     },
     created() {
-        this.$watch(
-            () => this.$route.params.id,
-            (newId, oldId) => {
-                console.log(newId)
-            }
-        )
         this.getOffer()
         this.subscription()
     },
@@ -134,14 +131,8 @@ export default {
         }
     },
     computed: {
-        isAdvertiser() {
-            return Number(this.$store.getters.user.role_id) === 1;
-        },
-        isWebmaster() {
-            return Number(this.$store.getters.user.role_id) === 2;
-        },
-        isAuthor() {
-            return Number(this.$store.getters.user.id) === Number(this.offer.user_id)
+        user() {
+            return this.$store.getters.user
         }
     }
 }

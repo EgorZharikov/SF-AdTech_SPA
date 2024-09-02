@@ -17,6 +17,7 @@ use App\Http\Resources\OfferResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Services\OfferService;
 
 class OfferController extends BaseController
 {
@@ -27,66 +28,14 @@ class OfferController extends BaseController
      */
     public function index(): JsonResponse
     {
-        $offers = Offer::all();
+        $offers = Offer::where('status', 1)->get();
 
         return $this->sendResponse(OfferResource::collection($offers), 'Offers retrieved successfully.');
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request): JsonResponse
+   
+    public function store(Request $request)
     {
-
-
-        $data = request()->validate([
-            'title' => 'required',
-            'url' => 'required|url',
-            'award' => 'required|numeric|min:0.1',
-            'content' => 'required',
-            'topic' => 'required',
-            'preview_image' => 'required|image|max:5120',
-            'unique_ip' => 'numeric',
-        ]);
-
-        $wallet = Wallet::where('user_id', Auth::id())->first();
-        if ($wallet->balance < $data['award']) {
-            return response()->json(['errors' => ['balance' => ['Insufficient funds!']]], 422);
-        }
-
-        try {
-
-            DB::beginTransaction();
-            $image = $data['preview_image'];
-            $name = md5(Carbon::now() . '_' . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
-            $filePath = Storage::disk('public')->putFileAs('/previews', $image, $name);
-            $data['preview_image'] = $filePath;
-
-            $topic = Topic::firstOrCreate([
-                'name' => $data['topic'],
-            ]);
-
-            $offer = Offer::create([
-                'title' => $data['title'],
-                'url' => $data['url'],
-                'award' => $data['award'],
-                'content' => $data['content'],
-                'preview_image' => $data['preview_image'],
-                'topic_id' => $topic->id,
-                'user_id' => Auth::id(),
-                'unique_ip' => $data['unique_ip'],
-            ]);
-
-            DB::commit();
-        } catch (\Exception $exception) {
-            Storage::disk('public')->delete($data['preview_image']);
-            DB::rollBack();
-            return $this->sendError($exception->getMessage());
-        }
-
-        return $this->sendResponse($offer, 'Offer created successfully');
+        OfferService::store($request);
     }
 
     /**
@@ -106,58 +55,10 @@ class OfferController extends BaseController
         return $this->sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Offer $offer): JsonResponse
+    
+    public function update(Request $request, Offer $offer)
     {
-        $data = request()->validate([
-            'title' => 'required',
-            'url' => 'required|url',
-            'content' => 'required',
-            'topic' => 'required',
-            'preview_image' => 'required|image|max:5120',
-            'unique_ip' => 'numeric',
-        ]);
-            $wallet = Wallet::where('user_id', Auth::id())->first();
-            if($wallet->balance < $offer->award) {
-            return response()->json(['errors' => ['balance' => ['Insufficient funds!']]], 422);
-            }
-
-        try {
-            DB::beginTransaction();
-            Storage::disk('public')->delete($offer->preview_image);
-            $image = $data['preview_image'];
-            $name = md5(Carbon::now() . '_' . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
-            $filePath = Storage::disk('public')->putFileAs('/previews', $image, $name);
-            $data['preview_image'] = $filePath;
-
-            $topic = Topic::firstOrCreate([
-                'name' => $data['topic'],
-            ]);
-
-            $offer->update([
-                'title' => $data['title'],
-                'url' => $data['url'],
-                'content' => $data['content'],
-                'preview_image' => $data['preview_image'],
-                'topic_id' => $topic->id,
-                'user_id' => Auth::id(),
-                'unique_ip' => $data['unique_ip']
-            ]);
-
-            DB::commit();
-        } catch (\Exception $exception) {
-            Storage::disk('public')->delete($data['preview_image']);
-            DB::rollBack();
-            return $this->sendError($exception->getMessage());
-        }
-
-        return $this->sendResponse($offer, 'Offer updated successfully');;
+        OfferService::update($request, $offer);
     }
 
     /**
@@ -173,46 +74,17 @@ class OfferController extends BaseController
         return $this->sendResponse([], 'Offer deleted successfully.');
     }
 
-    public function subscribe(Request $request, Offer $offer): JsonResponse
+    public function subscribe(Request $request, Offer $offer)
     {
-        $subscription = Subscription::where('user_id', Auth::id())->where('offer_id', $offer->id)->first();
-        if ($subscription === null) {
-            Subscription::create([
-                'user_id' => Auth::id(),
-                'offer_id' => $offer->id,
-                'referal_link' => Str::random(24),
-            ]);
-            $message = 'User '. Auth::user()->name . ' subscribe to you offer id:' . $offer->id;
-            event(new NotificationEvent($message, $offer->user_id, 'success'));
-            return response()->json(['message' => 'Subcribe successfully.'], 200);
-        }
-        if (!$subscription->status) {
-            $subscription->status = 1;
-            $subscription->save();
-            $message = 'User ' . Auth::user()->name . ' subscribe to you offer id:' . $offer->id;
-            event(new NotificationEvent($message, $offer->user_id, 'success'));
-            return response()->json(['message' => 'Subcribe successfully.'], 200);
-        }
-
-        return response()->json(['message' => 'You already subscribe.'], 422);
+        OfferService::subscribe($request, $offer);
     }
 
-    public function unsubscribe(Request $request, Offer $offer): JsonResponse
+    public function unsubscribe(Request $request, Offer $offer)
     {
-        $subscription = Subscription::where('user_id', Auth::id())->where('offer_id', $offer->id)->first();
-        if ($subscription) {
-            $subscription->status = 0;
-            $subscription->save();
-            $subscription->refresh();
-        } else {
-            return response()->json(['message' => 'You not subscribed.'], 422);
-        }
-        $message = 'User ' . Auth::user()->name . ' unsubscribe to you offer id:' . $offer->id;
-        event(new NotificationEvent($message, $offer->user_id, 'info'));
-        return response()->json(['message' => 'Unsubscribe success.'], 200);
+        OfferService::unsubscribe($request, $offer);
     }
 
-    public function subscription(Request $request, Offer $offer): JsonResponse
+    public function subscription(Request $request, Offer $offer)
     {
         $subscription = Subscription::where('user_id', Auth::id())->where('offer_id', $offer->id)->first();
 
@@ -242,6 +114,6 @@ class OfferController extends BaseController
         $offer->save();
         $offer->refresh();
 
-        return $this->sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
+        return self::sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
     }
 }

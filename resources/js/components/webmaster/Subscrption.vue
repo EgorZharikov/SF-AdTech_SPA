@@ -20,7 +20,7 @@
                             <!-- @else -->
                             <li v-else class="list-group-item text-warning">Status: suspend </li>
                             <!-- @endif -->
-                            <li class="list-group-item text-primary">Referal link: {{
+                            <li class="list-group-item text-primary">Referal link:<br> {{
                                 `${this.host}/redirects/${subscription.referal_link}` }} </li>
                         </ul>
                         <div class="card-body d-flex justify-content-center">

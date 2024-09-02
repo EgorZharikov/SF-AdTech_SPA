@@ -46,23 +46,23 @@ class AdvertiserController extends BaseController
         $dateCost = 0;
         $advertiserService = (new AdvertiserService);
         $statistics = $advertiserService->statisctics();
-        $totalCost = $advertiserService->totalCost;
+        $totalCost = round($advertiserService->totalCost, 2);
         
         if ($request->has('day')) {
             $dateStatistics = $advertiserService->dayStatistics();
-            $dateCost = $advertiserService->totalCost;
+            $dateCost = round($advertiserService->totalCost, 2);
             return response()->json(['dateStatistics' => $dateStatistics, 'dateCost' => $dateCost], 200);
         }
 
         if ($request->has('month')) {
             $dateStatistics = $advertiserService->monthStatistics();
-            $dateCost = $advertiserService->totalCost;
+            $dateCost = round($advertiserService->totalCost, 2);
             return response()->json(['dateStatistics' => $dateStatistics, 'dateCost' => $dateCost], 200);
         }
 
         if ($request->has('year')) {
             $dateStatistics = $advertiserService->yearStatistics();
-            $dateCost = $advertiserService->totalCost;
+            $dateCost = round($advertiserService->totalCost,2);
             return response()->json(['dateStatistics' => $dateStatistics, 'dateCost' => $dateCost], 200);
         }
 

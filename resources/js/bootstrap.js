@@ -1,4 +1,5 @@
 import 'bootstrap';
+import store from "./store"
 import router from './router'
 
 /**
@@ -15,6 +16,7 @@ axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 axios.interceptors.response.use({}, err => {
     if (err.response.status === 401 || err.response.status === 419) {
+        store.commit('setUser', null)
         router.push({ name: 'login'})
         
     }
