@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Referal code</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Offer award</th>
                             <th scope="col">Redirects</th>
                             <th scope="col">Service fee</th>
@@ -29,6 +30,8 @@
                         <!-- @foreach ($dateStatistics as $dateStatistic) -->
                         <tr v-for="totalStat in totalStats">
                             <th scope="row">{{ totalStat.referal_link }}</th>
+                            <td class="text-success" v-if="totalStat.status === 1">subscribed</td>
+                            <td class="text-warning" v-if="totalStat.status === 0">unsubscribed</td>
                             <td>{{ totalStat.offer_award }}</td>
                             <td>{{ totalStat.redirects_count }}</td>
                             <td>{{ totalStat.fee }}</td>
@@ -37,6 +40,7 @@
                         </tr>
                         <!-- @endforeach -->
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -68,6 +72,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Referal code</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Offer award</th>
                             <th scope="col">Redirects</th>
                             <th scope="col">Service fee</th>
@@ -78,6 +83,8 @@
                         <!-- @foreach ($dateStatistics as $dateStatistic) -->
                         <tr v-for="dateStat in dateStats">
                             <th scope="row">{{ dateStat.referal_link }}</th>
+                            <td class="text-success" v-if="dateStat.status === 1">subscribed</td>
+                            <td class="text-warning" v-if="dateStat.status === 0">unsubscribed</td>
                             <td>{{ dateStat.offer_award }}</td>
                             <td>{{ dateStat.redirects_count }}</td>
                             <td>{{ dateStat.fee }}</td>
@@ -86,6 +93,7 @@
                         </tr>
                         <!-- @endforeach -->
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -114,12 +122,11 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get('/api/webmaster/statistics')
                     .then(res => {
-                        console.log(res)
                         this.totalStats = res.data.statistics
                         this.totalAward = res.data.totalAward
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -127,12 +134,11 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/webmaster/statistics', {date: this.userDate, day: true})
                     .then(res => {
-                        console.log(res)
                         this.dateStats = res.data.dateStatistics
                         this.dateAward = res.data.dateAward
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -140,12 +146,11 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/webmaster/statistics', { date: this.userDate, month: true })
                     .then(res => {
-                        console.log(res)
                         this.dateStats = res.data.dateStatistics
                         this.dateAward = res.data.dateAward
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -153,12 +158,11 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/webmaster/statistics', { date: this.userDate, year: true })
                     .then(res => {
-                        console.log(res)
                         this.dateStats = res.data.dateStatistics
                         this.dateAward = res.data.dateAward
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         }

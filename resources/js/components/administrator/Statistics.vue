@@ -102,11 +102,9 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get('/api/administrator/statistics')
                     .then(res => {
-                        
                         this.totalStats = res.data.statistics
-                        console.log(this.totalStats)
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -114,11 +112,11 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/administrator/statistics', { date: this.userDate, day: true })
                     .then(res => {
-                        console.log(res)
+
                         this.dateStats = res.data.dateStatistics
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -126,11 +124,9 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/administrator/statistics', { date: this.userDate, month: true })
                     .then(res => {
-                        console.log(res)
                         this.dateStats = res.data.dateStatistics
-
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -138,11 +134,10 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/administrator/statistics', { date: this.userDate, year: true })
                     .then(res => {
-                        console.log(res)
                         this.dateStats = res.data.dateStatistics
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         }

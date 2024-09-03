@@ -51,11 +51,10 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get('/api/webmaster/subscriptions')
                     .then(res => {
-                        console.log(res)
                         this.subscriptions = res.data.data
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -63,10 +62,9 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post(`/api/offers/${this.$route.params.id}/unsubscribe`)
                     .then(res => {
-                        console.log(res)
                         this.subscription()
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },

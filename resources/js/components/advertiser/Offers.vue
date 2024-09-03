@@ -53,11 +53,10 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get('/api/advertiser/offers')
                     .then(res => {
-                        console.log(res)
                         this.offers = res.data.offers
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         }

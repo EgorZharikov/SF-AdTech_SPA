@@ -126,7 +126,6 @@ export default {
     },
     methods: {
         updateOffer() {
-            console.log(this.title)
             let uniqueIp = this.unique_ip ? 1 : 0
             const data = new FormData();
             data.append('title', this.title);
@@ -143,7 +142,6 @@ export default {
                         this.$root.triggerToast('success', 'Offer updated successfully!')
                         this.$router.push({ name: 'offer.index' })
                     }).catch(err => {
-                        console.log(err)
                         this.errors = err.response.data.errors
                     })
             })
@@ -168,7 +166,6 @@ export default {
                         }
 
                     }).catch(err => {
-                        console.log(err)
                         this.errors = err
                         this.errors = err.response.data.errors
                     })

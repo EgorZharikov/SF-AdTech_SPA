@@ -58,7 +58,6 @@ export default {
                     password_confirmation: this.password_confirmation
                 })
                     .then(res => {
-                        console.log(res)
                         if (res.data.data.hasOwnProperty("name")) {
                             this.$store.commit('setUser', res.data.data)
                             this.$store.commit('setBalance', res.data.data.wallet.balance)
@@ -66,7 +65,6 @@ export default {
                         }
                         
                     }).catch(err => {
-                        console.log(err)
                         this.errors = err.response.data.errors
                 })
             })

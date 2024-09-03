@@ -64,11 +64,10 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get(`/api/offers/${this.$route.params.id}`)
                     .then(res => {
-                        console.log(res.data.data)
                         this.offer = res.data.data
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -79,7 +78,7 @@ export default {
                         this.$root.triggerToast('success', 'Subscribed success!');
                         this.subscription()
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -90,7 +89,7 @@ export default {
                         this.$root.triggerToast('info', 'You unsubscribed of the offer.')
                         this.subscription()
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -99,10 +98,9 @@ export default {
                 axios.get(`/api/offers/${this.$route.params.id}/subscription`)
                     .then(res => {
                         this.subscribed = Number(res.data.subscribed)
-                        console.log(this.subscribed)
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -114,7 +112,7 @@ export default {
                         this.$root.triggerToast('success', 'Offer successfully published.')
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -125,7 +123,7 @@ export default {
                         this.offer = res.data.data
                         this.$root.triggerToast('info', 'Offer has been withdrawn from publication.')
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         }

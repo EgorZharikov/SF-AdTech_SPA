@@ -106,11 +106,10 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get('/api/users')
                     .then(res => {
-                        console.log(res)
                         this.users = res.data.data
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -118,10 +117,9 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.patch(`/api/users/${user.id}/ban`)
                     .then(res => {
-                        console.log(res)
                         this.getUsers()
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -129,11 +127,9 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.patch(`/api/users/${user.id}/unban`)
                     .then(res => {
-                        console.log(res)
                         this.getUsers()
-
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         },
@@ -141,7 +137,6 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/api/users', { name: this.name, email: this.email, role_id: this.role_id, password: this.password })
                     .then(res => {
-                        console.log(res)
                         this.name = null
                         this.email = null
                         this.role_id = null

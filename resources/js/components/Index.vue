@@ -58,7 +58,6 @@ export default {
       });
     },
     notificationsSubscribe() {
-      console.log(this.$store.getters.balance)
       if (this.$store.getters.user) {
         this.notificationsUnsubscribe();
         window.Echo.private(`notification_${this.$store.getters.user.id}`)

@@ -55,14 +55,12 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', { email: this.email, password: this.password, remember: this.remember })
                     .then(res => {
-                        console.log(res)
                         if (res.data.data.hasOwnProperty("name")) {
                             this.$store.commit('setUser', res.data.data)
                             this.$store.commit('setBalance', res.data.data.wallet.balance)
                             this.$router.push({ name: 'index' })
                         }
                     }).catch(err => {
-                        console.log(err)
                     this.errors = err.response.data.errors
                 })
             })

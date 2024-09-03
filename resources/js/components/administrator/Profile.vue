@@ -50,11 +50,10 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get('/api/administrator/profile')
                     .then(res => {
-                        console.log(res)
                         this.profile = res.data
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         }

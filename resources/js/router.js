@@ -43,7 +43,6 @@ router.beforeEach(async (to, from, next) => {
     }
 
     const roleId = store.getters.user ? Number(store.getters.user.role_id) : 0;
-    console.log(roleId)
     if (to.path.match(/administrator/) && roleId !== 3) {
         return router.push({ name: 'error.404' })
     } else if (to.path.match(/advertiser/) && roleId !== 1) {

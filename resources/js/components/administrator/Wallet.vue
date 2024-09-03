@@ -44,7 +44,6 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.get(`/api/administrator/wallet`)
                     .then(res => {
-                        console.log(res)
                         this.total = res.data.total.balance
                         this.income = res.data.income.balance
 

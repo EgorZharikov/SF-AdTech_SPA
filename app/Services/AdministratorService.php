@@ -67,7 +67,7 @@ class AdministratorService
 
         $offers = Offer::whereYear('created_at', date("Y", strtotime(request()->date)))->whereMonth('created_at', date("m", strtotime(request()->date)))->count();
         $offersPublicated = Offer::where('status', 1)->whereYear('created_at', date("Y", strtotime(request()->date)))->whereMonth('created_at', date("m", strtotime(request()->date)))->count();
-        $refLinkCount = Subscription::whereYear('created_at', date("Y", strtotime(request()->date)))->whereMonth('created_at', date("m", strtotime(request()->date)))->count();
+        $refLinkCount = Subscription::where('status', 1)->whereYear('created_at', date("Y", strtotime(request()->date)))->whereMonth('created_at', date("m", strtotime(request()->date)))->count();
         $refLinkTotal = Subscription::withTrashed()->whereYear('created_at', date("Y", strtotime(request()->date)))->whereMonth('created_at', date("m", strtotime(request()->date)))->count();
         $redirectsSuccess = Redirect::where('status', true)->whereYear('created_at', date("Y", strtotime(request()->date)))->whereMonth('created_at', date("m", strtotime(request()->date)))->count();
         $redirectsFail = Redirect::where('status', false)->whereYear('created_at', date("Y", strtotime(request()->date)))->whereMonth('created_at', date("m", strtotime(request()->date)))->count();
@@ -88,7 +88,7 @@ class AdministratorService
 
         $offers = Offer::whereYear('created_at', date("Y", strtotime(request()->date)))->count();
         $offersPublicated = Offer::where('status', 1)->whereYear('created_at', date("Y", strtotime(request()->date)))->count();
-        $refLinkCount = Subscription::whereYear('created_at', date("Y", strtotime(request()->date)))->count();
+        $refLinkCount = Subscription::where('status', 1)->whereYear('created_at', date("Y", strtotime(request()->date)))->count();
         $refLinkTotal = Subscription::withTrashed()->whereYear('created_at', date("Y", strtotime(request()->date)))->count();
         $redirectsSuccess = Redirect::where('status', true)->whereYear('created_at', date("Y", strtotime(request()->date)))->count();
         $redirectsFail = Redirect::where('status', false)->whereYear('created_at', date("Y", strtotime(request()->date)))->count();

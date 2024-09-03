@@ -37,7 +37,7 @@ class OfferService
 
     public static function store(Request $request)
     {
-        $data = request()->validate([
+        $data = $request->validate([
             'title' => 'required',
             'url' => 'required|url',
             'award' => 'required|numeric|min:0.1',
@@ -46,10 +46,11 @@ class OfferService
             'preview_image' => 'required|image|max:5120',
             'unique_ip' => 'numeric',
         ]);
-
+        
         $wallet = Wallet::where('user_id', Auth::id())->first();
         if ($wallet->balance < $data['award']) {
             return response()->json(['errors' => ['balance' => ['Insufficient funds!']]], 422);
+
         }
 
         try {
@@ -74,7 +75,6 @@ class OfferService
                 'user_id' => Auth::id(),
                 'unique_ip' => $data['unique_ip'],
             ]);
-
             DB::commit();
         } catch (\Exception $exception) {
             Storage::disk('public')->delete($data['preview_image']);
@@ -179,6 +179,38 @@ class OfferService
         return response()->json(['message' => 'Unsubscribe success.'], 200);
     }
 
+    public static function subscription(Request $request, Offer $offer)
+    {
+        $subscription = Subscription::where('user_id', Auth::id())->where('offer_id', $offer->id)->first();
+
+        if ($subscription === null) {
+            return response()->json(['subscribed' => 0], 200);
+        }
+        if (!$subscription->status) {
+            return response()->json(['subscribed' => 0], 200);
+        }
+
+
+        return response()->json(['subscribed' => 1], 200);
+    }
+
+    public static function unpublish(Offer $offer)
+    {
+        $offer->status = 0;
+        $offer->save();
+        $offer->refresh();
+
+        return self::sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
+    }
+
+    public static function publish(Offer $offer)
+    {
+        $offer->status = 1;
+        $offer->save();
+        $offer->refresh();
+
+        return self::sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
+    }
     /**
      * success response method.
      *

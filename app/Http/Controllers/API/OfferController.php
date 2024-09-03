@@ -35,7 +35,7 @@ class OfferController extends BaseController
    
     public function store(Request $request)
     {
-        OfferService::store($request);
+        return OfferService::store($request);
     }
 
     /**
@@ -58,7 +58,7 @@ class OfferController extends BaseController
     
     public function update(Request $request, Offer $offer)
     {
-        OfferService::update($request, $offer);
+       return OfferService::update($request, $offer);
     }
 
     /**
@@ -76,44 +76,26 @@ class OfferController extends BaseController
 
     public function subscribe(Request $request, Offer $offer)
     {
-        OfferService::subscribe($request, $offer);
+        return OfferService::subscribe($request, $offer);
     }
 
     public function unsubscribe(Request $request, Offer $offer)
     {
-        OfferService::unsubscribe($request, $offer);
+        return OfferService::unsubscribe($request, $offer);
     }
 
     public function subscription(Request $request, Offer $offer)
     {
-        $subscription = Subscription::where('user_id', Auth::id())->where('offer_id', $offer->id)->first();
-
-        if ($subscription === null) {
-            return response()->json(['subscribed' => 0], 200);
-        }
-        if (!$subscription->status) {
-            return response()->json(['subscribed' => 0], 200);
-        }
-
-
-        return response()->json(['subscribed' => 1], 200);
+        return OfferService::subscription($request, $offer);
     }
 
     public function unpublish(Offer $offer)
     {
-        $offer->status = 0;
-        $offer->save();
-        $offer->refresh();
-
-        return $this->sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
+       return OfferService::unpublish($offer);
     }
 
     public function publish(Offer $offer)
     {
-        $offer->status = 1;
-        $offer->save();
-        $offer->refresh();
-
-        return self::sendResponse(new OfferResource($offer), 'Offer retrieved successfully.');
+        return OfferService::publish($offer);
     }
 }

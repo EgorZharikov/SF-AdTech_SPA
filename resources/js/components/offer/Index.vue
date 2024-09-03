@@ -36,10 +36,9 @@ export default {
                 axios.get('/api/offers')
                     .then(res => {
                         this.offers = res.data.data
-                        console.log(res.data.data)
 
                     }).catch(err => {
-                        console.log(err)
+
                     })
             })
         }
