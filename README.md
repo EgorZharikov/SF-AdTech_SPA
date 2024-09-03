@@ -2,6 +2,9 @@
 ### License
 The SF-AdTech is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
+## About SF-AdTech
+
+SF-AdTech — это трекер трафика, созданный для организации взаимодействия компаний (рекламодателей), которые хотят привлечь к себе на сайт посетителей и покупателей (клиентов), и владельцев сайтов (веб-мастеров), на которые люди приходят, например, чтобы почитать новости или пообщаться на форуме.
 
 # Installation
 Выполните необходимые команды и рекоммендации:
@@ -20,11 +23,7 @@ The SF-AdTech is open-sourced software licensed under the [MIT license](https://
 * Laravel11/Sanctum/Pusher
 ### frontend:
 * Vue3/Vuex4/VueRouter/vue-sweetalert2
-
-## About SF-AdTech
-
-SF-AdTech — это трекер трафика, созданный для организации взаимодействия компаний (рекламодателей), которые хотят привлечь к себе на сайт посетителей и покупателей (клиентов), и владельцев сайтов (веб-мастеров), на которые люди приходят, например, чтобы почитать новости или пообщаться на форуме.
-
+  
 ## Role Advertiser
 Options:
 * Зарегистрироваться в системе;
