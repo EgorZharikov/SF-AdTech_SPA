@@ -1,7 +1,6 @@
-![logo](./public/img/logo.png)
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![title-logo](./public/img/title_logo.jpg)
+### License
+The SF-AdTech is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
 # Installation
