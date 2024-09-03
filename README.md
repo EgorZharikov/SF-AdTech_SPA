@@ -1,3 +1,9 @@
+![logo](./public/img/logo.png)
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
 # Installation
 Выполните необходимые команды и рекоммендации:
 
@@ -74,9 +80,3 @@ Oprions:
 * Преобразовать клик-ссылку в целевой URL;
 * Перенаправить клиента на целевой URL;
 * Зафиксировать факт перенаправления.
-
-
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
