@@ -14,7 +14,7 @@
 ### backend:
 * Laravel11/Sanctum/Pusher
 ### frontend:
-* Vue/Vuex/VueRouter/vue-sweetalert2
+* Vue3/Vuex4/VueRouter/vue-sweetalert2
 
 ## About SF-AdTech
 
